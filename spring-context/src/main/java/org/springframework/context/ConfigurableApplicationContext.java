@@ -56,6 +56,9 @@ public interface ConfigurableApplicationContext extends ApplicationContext, Life
 	 * Name of the ConversionService bean in the factory.
 	 * If none is supplied, default conversion rules apply.
 	 * @since 3.0
+	 * <p>
+	 *     工厂中ConversionService bean的名称。如果未提供任何内容，则适用默认转换规则。
+	 * </p>
 	 * @see org.springframework.core.convert.ConversionService
 	 */
 	String CONVERSION_SERVICE_BEAN_NAME = "conversionService";
@@ -194,6 +197,9 @@ public interface ConfigurableApplicationContext extends ApplicationContext, Life
 	/**
 	 * Determine whether this application context is active, that is,
 	 * whether it has been refreshed at least once and has not been closed yet.
+	 * <p>
+	 *     确定此应用程序上下文是否处于活动状态，即是否已至少刷新一次并且尚未关闭。
+	 * </p>
 	 * @return whether the context is still active
 	 * @see #refresh()
 	 * @see #close()

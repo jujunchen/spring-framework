@@ -516,40 +516,52 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	public void refresh() throws BeansException, IllegalStateException {
 		synchronized (this.startupShutdownMonitor) {
 			// Prepare this context for refreshing.
+			//准备上下文
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory.
+			//子类启动BeanFactory
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// Prepare the bean factory for use in this context.
+			//准备BeanFactory上下文信息
 			prepareBeanFactory(beanFactory);
 
 			try {
 				// Allows post-processing of the bean factory in context subclasses.
+				//设置BeanFactory后置处理
 				postProcessBeanFactory(beanFactory);
 
 				// Invoke factory processors registered as beans in the context.
+				//调用上下文中注册为bean的工厂处理器
 				invokeBeanFactoryPostProcessors(beanFactory);
 
 				// Register bean processors that intercept bean creation.
+				//注册Bean的后置处理器，在Bean创建过程中调用
 				registerBeanPostProcessors(beanFactory);
 
 				// Initialize message source for this context.
+				//初始化上下文消息源
 				initMessageSource();
 
 				// Initialize event multicaster for this context.
+				//初始化事件
 				initApplicationEventMulticaster();
 
 				// Initialize other special beans in specific context subclasses.
+				//初始化其他特殊的Bean
 				onRefresh();
 
 				// Check for listener beans and register them.
+				//检查监听Bean并且将这些Bean注册到容器
 				registerListeners();
 
 				// Instantiate all remaining (non-lazy-init) singletons.
+				//实例化所有的单例Bean,懒加载的除外
 				finishBeanFactoryInitialization(beanFactory);
 
 				// Last step: publish corresponding event.
+				//发布容器事件，结束refresh过程
 				finishRefresh();
 			}
 
@@ -560,9 +572,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				}
 
 				// Destroy already created singletons to avoid dangling resources.
+				//消耗前面已经创建过的单例Bean
 				destroyBeans();
 
 				// Reset 'active' flag.
+				//重置active标志
 				cancelRefresh(ex);
 
 				// Propagate exception to caller.
@@ -580,6 +594,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/**
 	 * Prepare this context for refreshing, setting its startup date and
 	 * active flag as well as performing any initialization of property sources.
+	 * <p>准备此上下文用于刷新、设置其启动日期和活动标志以及执行任何属性源的初始化。</p>
 	 */
 	protected void prepareRefresh() {
 		// Switch to active.
@@ -641,6 +656,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/**
 	 * Configure the factory's standard context characteristics,
 	 * such as the context's ClassLoader and post-processors.
+	 * <p>配置工厂的标准上下文特征，例如上下文的类加载器和后处理程序。</p>
 	 * @param beanFactory the BeanFactory to configure
 	 */
 	protected void prepareBeanFactory(ConfigurableListableBeanFactory beanFactory) {
@@ -846,9 +862,13 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/**
 	 * Finish the initialization of this context's bean factory,
 	 * initializing all remaining singleton beans.
+	 * <p>
+	 *     完成此上下文的bean工厂的初始化，初始化所有剩余的单例bean。
+	 * </p>
 	 */
 	protected void finishBeanFactoryInitialization(ConfigurableListableBeanFactory beanFactory) {
 		// Initialize conversion service for this context.
+		//为此上下文初始化转换服务
 		if (beanFactory.containsBean(CONVERSION_SERVICE_BEAN_NAME) &&
 				beanFactory.isTypeMatch(CONVERSION_SERVICE_BEAN_NAME, ConversionService.class)) {
 			beanFactory.setConversionService(
@@ -858,6 +878,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// Register a default embedded value resolver if no bean post-processor
 		// (such as a PropertyPlaceholderConfigurer bean) registered any before:
 		// at this point, primarily for resolution in annotation attribute values.
+		//如果之前没有任何bean后处理器（例如，PropertyPlaceholderConfigurer Bean）进行过任何注册，
+		// 请注册一个默认的嵌入式值解析器：此时，主要用于注释属性值的解析。
 		if (!beanFactory.hasEmbeddedValueResolver()) {
 			beanFactory.addEmbeddedValueResolver(strVal -> getEnvironment().resolvePlaceholders(strVal));
 		}
@@ -869,12 +891,15 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		}
 
 		// Stop using the temporary ClassLoader for type matching.
+		//停止使用临时类加载器
 		beanFactory.setTempClassLoader(null);
 
 		// Allow for caching all bean definition metadata, not expecting further changes.
+		//缓存容器中所有注册的BeanDefinition,防止被修改
 		beanFactory.freezeConfiguration();
 
 		// Instantiate all remaining (non-lazy-init) singletons.
+		//提前实例化
 		beanFactory.preInstantiateSingletons();
 	}
 

@@ -45,6 +45,14 @@ import org.springframework.core.annotation.AliasFor;
  * <p>This annotation may be used as a <em>meta-annotation</em> to create custom
  * <em>composed annotations</em> with attribute overrides.
  *
+ * <p>
+ *     指示可以缓存调用方法（或类中的所有方法）的结果的注释。
+ * 每次调用建议的方法时，将应用缓存行为，检查是否已为给定参数调用了该方法。合理的默认值只是使用方法参数来计算键，但是可以通过key属性提供SpEL表达式，或者自定义的org.springframework.cache
+ * .interceptor.KeyGenerator实现可以替换默认值（请参见keyGenerator）。
+ * 如果在高速缓存中找不到用于计算键的值，则将调用目标方法，并将返回的值存储在关联的高速缓存中。请注意，Java8的Optional返回类型是自动处理的，并且如果存在，其内容将存储在缓存中。
+ * 该批注可以用作元批注，以创建具有属性覆盖的自定义组成的批注。
+ * </p>
+ *
  * @author Costin Leau
  * @author Phillip Webb
  * @author Stephane Nicoll
@@ -60,6 +68,8 @@ public @interface Cacheable {
 
 	/**
 	 * Alias for {@link #cacheNames}.
+	 * <p>缓存别名</p>
+	 *
 	 */
 	@AliasFor("cacheNames")
 	String[] value() default {};
@@ -68,6 +78,10 @@ public @interface Cacheable {
 	 * Names of the caches in which method invocation results are stored.
 	 * <p>Names may be used to determine the target cache (or caches), matching
 	 * the qualifier value or bean name of a specific bean definition.
+	 * <p>
+	 *     缓存名称
+	 * </p>
+	 *
 	 * @since 4.2
 	 * @see #value
 	 * @see CacheConfig#cacheNames
@@ -91,6 +105,16 @@ public @interface Cacheable {
 	 * can be accessed via {@code #root.args[1]}, {@code #p1} or {@code #a1}. Arguments
 	 * can also be accessed by name if that information is available.</li>
 	 * </ul>
+	 *
+	 * <p>
+	 *     Spring Expression Language（SpEL）表达式，用于动态计算缓存可以。
+	 * 默认值为“”，所有方法参数都会被计算当做key，除非已配置了自定义keyGenerator。
+	 * SpEL表达式根据提供以下元数据的专用上下文进行评估：
+	 * ＃root.method，＃root.target和＃root.caches分别引用方法，目标对象和受影响的缓存。
+	 * 也提供方法名称（＃root.methodName）和目标类（＃root.targetClass）的快捷方式。
+	 * 方法参数可以通过索引访问。例如，可以通过＃root.args [1]，＃p1或＃a1访问第二个参数。如果该信息可用，也可以按名称访问参数。
+	 * </p>
+	 *
 	 */
 	String key() default "";
 
@@ -98,6 +122,9 @@ public @interface Cacheable {
 	 * The bean name of the custom {@link org.springframework.cache.interceptor.KeyGenerator}
 	 * to use.
 	 * <p>Mutually exclusive with the {@link #key} attribute.
+	 * <p>
+	 *     自定义key生成器
+	 * </p>
 	 * @see CacheConfig#keyGenerator
 	 */
 	String keyGenerator() default "";
@@ -107,6 +134,9 @@ public @interface Cacheable {
 	 * create a default {@link org.springframework.cache.interceptor.CacheResolver} if none
 	 * is set already.
 	 * <p>Mutually exclusive with the {@link #cacheResolver}  attribute.
+	 *
+	 * <p>缓存管理器</p>
+	 *
 	 * @see org.springframework.cache.interceptor.SimpleCacheResolver
 	 * @see CacheConfig#cacheManager
 	 */
@@ -115,6 +145,7 @@ public @interface Cacheable {
 	/**
 	 * The bean name of the custom {@link org.springframework.cache.interceptor.CacheResolver}
 	 * to use.
+	 * <p>缓存解析器</p>
 	 * @see CacheConfig#cacheResolver
 	 */
 	String cacheResolver() default "";
@@ -135,6 +166,8 @@ public @interface Cacheable {
 	 * can be accessed via {@code #root.args[1]}, {@code #p1} or {@code #a1}. Arguments
 	 * can also be accessed by name if that information is available.</li>
 	 * </ul>
+	 *
+	 * <p>缓存条件</p>
 	 */
 	String condition() default "";
 
@@ -159,6 +192,8 @@ public @interface Cacheable {
 	 * can also be accessed by name if that information is available.</li>
 	 * </ul>
 	 * @since 3.2
+	 *
+	 * <p>不缓存条件</p>
 	 */
 	String unless() default "";
 
@@ -174,6 +209,8 @@ public @interface Cacheable {
 	 * This is effectively a hint and the actual cache provider that you are
 	 * using may not support it in a synchronized fashion. Check your provider
 	 * documentation for more details on the actual semantics.
+	 *
+	 * <p>缓存同步加锁</p>
 	 * @since 4.3
 	 * @see org.springframework.cache.Cache#get(Object, Callable)
 	 */

@@ -29,6 +29,11 @@ import java.lang.annotation.Target;
  * Can also be used in conjunction with Java 8's support for repeatable annotations,
  * where {@link ComponentScan} can simply be declared several times on the same method,
  * implicitly generating this container annotation.
+ * <p>
+ * 聚合多个{@link ComponentScan}注释的容器注释
+ * <p>
+ *可以声明几个嵌套的{@link ComponentScan}注释。还可以与Java 8对可重复注释的支持一起使用，
+ * 其中{@link ComponentScan}可以简单地在同一方法上声明多次，隐式地生成这个容器注释。
  *
  * @author Juergen Hoeller
  * @since 4.3
