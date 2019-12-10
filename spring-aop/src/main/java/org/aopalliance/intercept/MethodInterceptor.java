@@ -37,6 +37,11 @@ package org.aopalliance.intercept;
  * }
  * </pre>
  *
+ * <p>
+ *     拦截目标方法，在目标方法之前执行。
+ * <p>
+ *	实现{@link #invoke(MethodInvocation)}方法能够拦截目标方法，并修改其行为
+ *
  * @author Rod Johnson
  */
 @FunctionalInterface
@@ -46,9 +51,12 @@ public interface MethodInterceptor extends Interceptor {
 	 * Implement this method to perform extra treatments before and
 	 * after the invocation. Polite implementations would certainly
 	 * like to invoke {@link Joinpoint#proceed()}.
-	 * @param invocation the method invocation joinpoint
+	 * <p>
+	 *     实现该方法，能够在目标方法执行{@link Joinpoint#proceed()}前或者后进行额外的处理
+	 * </p>
+	 * @param invocation the method invocation joinpoint  <br>方法调用切点
 	 * @return the result of the call to {@link Joinpoint#proceed()};
-	 * might be intercepted by the interceptor
+	 * might be intercepted by the interceptor  <br>返回{@link Joinpoint#proceed()}调用结果，有可能会被拦截器拦截修改
 	 * @throws Throwable if the interceptors or the target object
 	 * throws an exception
 	 */
