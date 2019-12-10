@@ -49,6 +49,12 @@ public interface WebApplicationContext extends ApplicationContext {
 	 * <p>Note: If the startup of the root context fails, this attribute can contain
 	 * an exception or error as value. Use WebApplicationContextUtils for convenient
 	 * lookup of the root WebApplicationContext.
+	 * <p>
+	 *     用于在成功启动时将根WebApplicationContext绑定到的Context属性。
+	 * </p>
+	 * <p>
+	 * 注意：如果根上下文的启动失败，则此属性可以包含异常或错误作为值。使用WebApplicationContextUtils可以方便地查找根WebApplicationContext。
+	 * </p>
 	 * @see org.springframework.web.context.support.WebApplicationContextUtils#getWebApplicationContext
 	 * @see org.springframework.web.context.support.WebApplicationContextUtils#getRequiredWebApplicationContext
 	 */
@@ -99,6 +105,11 @@ public interface WebApplicationContext extends ApplicationContext {
 
 	/**
 	 * Return the standard Servlet API ServletContext for this application.
+	 * <p>Also available for a Portlet application, in addition to the PortletContext.
+	 *
+	 * 返回此应用程序的标准Servlet API ServletContext。
+	 * <br>
+	 * 除了PortletContext之外，还可用于Portlet应用程序
 	 */
 	@Nullable
 	ServletContext getServletContext();

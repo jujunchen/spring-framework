@@ -73,6 +73,7 @@ public class XmlWebApplicationContext extends AbstractRefreshableWebApplicationC
 
 	/**
 	 * Loads the bean definitions via an XmlBeanDefinitionReader.
+	 * <p>通过XmlBeanDefinitionReader加载bean定义。</p>
 	 * @see org.springframework.beans.factory.xml.XmlBeanDefinitionReader
 	 * @see #initBeanDefinitionReader
 	 * @see #loadBeanDefinitions
@@ -99,6 +100,12 @@ public class XmlWebApplicationContext extends AbstractRefreshableWebApplicationC
 	 * definitions of this context. Default implementation is empty.
 	 * <p>Can be overridden in subclasses, e.g. for turning off XML validation
 	 * or using a different XmlBeanDefinitionParser implementation.
+	 *
+	 * <p>
+	 *     初始化用于加载此上下文的bean definition的bean读取器。
+	 * 	   默认实现为空。
+	 * 	   可以在子类中重写，例如用于关闭XML验证或使用不同的XmlBeanDefinitionParser实现。
+	 * </p>
 	 * @param beanDefinitionReader the bean definition reader used by this context
 	 * @see org.springframework.beans.factory.xml.XmlBeanDefinitionReader#setValidationMode
 	 * @see org.springframework.beans.factory.xml.XmlBeanDefinitionReader#setDocumentReaderClass
@@ -112,6 +119,14 @@ public class XmlWebApplicationContext extends AbstractRefreshableWebApplicationC
 	 * therefore this method is just supposed to load and/or register bean definitions.
 	 * <p>Delegates to a ResourcePatternResolver for resolving location patterns
 	 * into Resource instances.
+	 *
+	 * <p>
+	 *     使用给定的XmlBeanDefinitionReader加载bean定义。
+	 * </p>
+	 * <p>
+	 *     bean工厂的生命周期由refreshBeanFactory方法处理;因此，这个方法只是加载和/或注册bean定义。
+	 * 委托ResourcePatternResolver将路径解析为Resource实例。
+	 * </p>
 	 * @throws IOException if the required XML document isn't found
 	 * @see #refreshBeanFactory
 	 * @see #getConfigLocations

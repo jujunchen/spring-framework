@@ -259,6 +259,7 @@ public class ContextLoader {
 	 * @see #CONFIG_LOCATION_PARAM
 	 */
 	public WebApplicationContext initWebApplicationContext(ServletContext servletContext) {
+		//判断是否已经存在根上下文
 		if (servletContext.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE) != null) {
 			throw new IllegalStateException(
 					"Cannot initialize context because there is already a root application context present - " +
@@ -275,6 +276,7 @@ public class ContextLoader {
 		try {
 			// Store context in local instance variable, to guarantee that
 			// it is available on ServletContext shutdown.
+			//将context存储在本地变量中
 			if (this.context == null) {
 				this.context = createWebApplicationContext(servletContext);
 			}
@@ -340,6 +342,9 @@ public class ContextLoader {
 	/**
 	 * Return the WebApplicationContext implementation class to use, either the
 	 * default XmlWebApplicationContext or a custom context class if specified.
+	 * <p>
+	 *     返回要使用的WebApplicationContext实现类，如果指定，则使用默认的XmlWebApplicationContext或自定义上下文类
+	 * </p>
 	 * @param servletContext current servlet context
 	 * @return the WebApplicationContext implementation class to use
 	 * @see #CONTEXT_CLASS_PARAM
@@ -496,6 +501,12 @@ public class ContextLoader {
 	 * EJBs. For pure web applications, there is usually no need to worry about
 	 * having a parent context to the root web application context.
 	 * <p>The default implementation simply returns {@code null}, as of 5.0.
+	 * <p>
+	 *     具有默认实现的模板方法（可以由子类覆盖），以加载或获取将用作根WebApplicationContext的父上下文的ApplicationContext实例。<br>
+	 *     如果方法的返回值为null，则不设置父上下文。<br>
+	 * 		在此处加载父上下文的主要原因是允许多个根Web应用程序上下文都是共享EAR上下文的子项，或者也可以共享EJB可见的相同父上下文。<br>
+	 * 		对于纯Web应用程序，通常无需担心根Web应用程序上下文具有父上下文<br>。
+	 * </p>
 	 * @param servletContext current servlet context
 	 * @return the parent application context, or {@code null} if none
 	 */

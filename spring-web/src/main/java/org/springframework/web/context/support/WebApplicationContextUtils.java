@@ -92,7 +92,12 @@ public abstract class WebApplicationContextUtils {
 	 * loaded via {@link org.springframework.web.context.ContextLoaderListener}.
 	 * <p>Will rethrow an exception that happened on root context startup,
 	 * to differentiate between a failed context startup and no context at all.
-	 * @param sc the ServletContext to find the web application context for
+	 *
+	 * <p>
+	 *     查找此Web应用程序的根WebApplicationContext，通常通过org.springframework.web.context.ContextLoaderListener加载。
+	 * <br>将重新抛出在根上下文启动时发生的异常，以区分失败的上下文启动和根本没有上下文
+	 * </p>
+	 * @param sc ServletContext to find the web application context for
 	 * @return the root WebApplicationContext for this web app, or {@code null} if none
 	 * @see org.springframework.web.context.WebApplicationContext#ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE
 	 */
@@ -103,6 +108,8 @@ public abstract class WebApplicationContextUtils {
 
 	/**
 	 * Find a custom {@code WebApplicationContext} for this web app.
+	 * <p>
+	 * 为此Web应用程序查找自定义{@code WebApplicationContext}。
 	 * @param sc the ServletContext to find the web application context for
 	 * @param attrName the name of the ServletContext attribute to look for
 	 * @return the desired WebApplicationContext for this web app, or {@code null} if none
@@ -138,6 +145,13 @@ public abstract class WebApplicationContextUtils {
 	 * controlled through its {@code publishContext} property, which is {@code true}
 	 * by default but can be selectively switched to only publish a single context
 	 * despite multiple {@code DispatcherServlet} registrations in the web app.
+	 *
+	 * <p>
+	 *     为此Web应用程序查找唯一的WebApplicationContext：根Web应用程序上下文（首选）或已注册ServletContext属性中的唯一WebApplicationContext（通常来自当前Web
+	 *     应用程序中的单个DispatcherServlet）。<br>
+	 * 请注意，DispatcherServlet对其上下文的暴露可以通过其publishContext属性进行控制，默认情况下该属性为true，但可以选择性地切换为仅发布单个上下文，尽管Web
+	 * 应用程序中有多个DispatcherServlet注册。
+	 * </p>
 	 * @param sc the ServletContext to find the web application context for
 	 * @return the desired WebApplicationContext for this web app, or {@code null} if none
 	 * @since 4.2
