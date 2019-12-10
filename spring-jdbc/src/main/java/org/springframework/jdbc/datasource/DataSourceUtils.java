@@ -41,6 +41,12 @@ import org.springframework.util.Assert;
  * <p>Used internally by Spring's {@link org.springframework.jdbc.core.JdbcTemplate},
  * Spring's JDBC operation objects and the JDBC {@link DataSourceTransactionManager}.
  * Can also be used directly in application code.
+ * <p>
+ *     工具类，提供从数据源获取JDBC连接的静态方法。包括对Spring事务连接管理的特殊支持。
+ *     例如{@link DataSourceTransactionManager}或者{@link org.springframework.transaction.jta.JtaTransactionManager}
+ * <p>
+ *     由Spring的{@link org.springframework.transaction.jta.JtaTransactionManager}内部使用，
+ *     Spring的JDBC操作对象和JDBC的{@link DataSourceTransactionManager}，也可以在应用程序代码中直接使用。
  *
  * @author Rod Johnson
  * @author Juergen Hoeller

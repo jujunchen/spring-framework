@@ -251,6 +251,7 @@ public class DataSourceTransactionManager extends AbstractPlatformTransactionMan
 
 	/**
 	 * This implementation sets the isolation level but ignores the timeout.
+	 * <p>提供了隔离级别设置，忽略了超时</p>
 	 */
 	@Override
 	protected void doBegin(Object transaction, TransactionDefinition definition) {
