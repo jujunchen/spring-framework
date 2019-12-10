@@ -20,6 +20,10 @@ package org.springframework.dao;
  * Exception thrown on failure to complete a transaction in serialized mode
  * due to update conflicts.
  *
+ * <p>
+ *     由于更新冲突而无法在序列化模式下完成事务引起的异常
+ * </p>
+ *
  * @author Rod Johnson
  */
 @SuppressWarnings("serial")

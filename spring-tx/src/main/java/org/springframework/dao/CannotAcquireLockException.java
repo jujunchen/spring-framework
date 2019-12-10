@@ -20,6 +20,11 @@ package org.springframework.dao;
  * Exception thrown on failure to acquire a lock during an update,
  * for example during a "select for update" statement.
  *
+ * <p>
+ *     在更新期间，未能获取锁引发的异常
+ *     比如使用"select for update"
+ * </p>
+ *
  * @author Rod Johnson
  */
 @SuppressWarnings("serial")
@@ -27,6 +32,7 @@ public class CannotAcquireLockException extends PessimisticLockingFailureExcepti
 
 	/**
 	 * Constructor for CannotAcquireLockException.
+	 * 构造器
 	 * @param msg the detail message
 	 */
 	public CannotAcquireLockException(String msg) {

@@ -91,8 +91,9 @@ public abstract class DataAccessUtils {
 	/**
 	 * Return a single result object from the given Collection.
 	 * <p>Throws an exception if 0 or more than 1 element found.
+	 * <p>返回唯一结果，如果结果数量为0或者大于1，抛错</p>
 	 * @param results the result Collection (can be {@code null}
-	 * and is also expected to contain {@code null} elements)
+	 * and is also expected to contain {@code null} elements)<br>结果集合，内部可能包含 null 元素
 	 * @return the single result object
 	 * @throws IncorrectResultSizeDataAccessException if more than one
 	 * element has been found in the given Collection
@@ -104,6 +105,7 @@ public abstract class DataAccessUtils {
 	public static <T> T nullableSingleResult(@Nullable Collection<T> results) throws IncorrectResultSizeDataAccessException {
 		// This is identical to the requiredSingleResult implementation but differs in the
 		// semantics of the incoming Collection (which we currently can't formally express)
+		//判断集合是否为空
 		if (CollectionUtils.isEmpty(results)) {
 			throw new EmptyResultDataAccessException(1);
 		}
@@ -158,6 +160,7 @@ public abstract class DataAccessUtils {
 		if (CollectionUtils.isEmpty(results)) {
 			throw new EmptyResultDataAccessException(1);
 		}
+		//判断集合中是否只有一个唯一元素
 		if (!CollectionUtils.hasUniqueObject(results)) {
 			throw new IncorrectResultSizeDataAccessException(1, results.size());
 		}

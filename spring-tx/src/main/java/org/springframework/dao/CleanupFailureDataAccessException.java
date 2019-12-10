@@ -27,6 +27,14 @@ package org.springframework.dao;
  * finally block and therefore log cleanup failure rather than rethrow it,
  * to keep the original data access exception, if any.
  *
+ * <p>
+ *     当我们在数据访问操作后无法清理时抛出异常，但实际操作正常。
+ * <p>
+ *     例如，在JDBC连接成功后无法关闭，则其或者子类可能会抛出该异常
+ * <p>
+ *     请注意，数据访问代码可能会在finally块中执行资源清理，因此会记录清理失败而不是抛出错误，以保留原始的数据访问异常（如果有）。
+ * </p>
+ *
  * @author Rod Johnson
  */
 @SuppressWarnings("serial")

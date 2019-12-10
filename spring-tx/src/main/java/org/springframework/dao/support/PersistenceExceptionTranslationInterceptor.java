@@ -40,6 +40,10 @@ import org.springframework.util.ReflectionUtils;
  * (if appropriate). If the RuntimeException in question is declared on the
  * target method, it is always propagated as-is (with no translation applied).
  *
+ * <p>
+ *     AOP Alliance MethodInterceptor,它基于给定的PersistenceExceptionTranslator提供持久性异常转换。
+ * <p>
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 2.0
@@ -48,6 +52,10 @@ import org.springframework.util.ReflectionUtils;
 public class PersistenceExceptionTranslationInterceptor
 		implements MethodInterceptor, BeanFactoryAware, InitializingBean {
 
+
+	/**
+	 * 能够将持久层的运行时异常转换为DataAccessException异常
+	 */
 	@Nullable
 	private volatile PersistenceExceptionTranslator persistenceExceptionTranslator;
 
@@ -60,6 +68,9 @@ public class PersistenceExceptionTranslationInterceptor
 	/**
 	 * Create a new PersistenceExceptionTranslationInterceptor.
 	 * Needs to be configured with a PersistenceExceptionTranslator afterwards.
+	 * <p>
+	 *     默认构造器，后面需要用setPersistenceExceptionTranslator设置一个PersistenceExceptionTranslator
+	 * </p>
 	 * @see #setPersistenceExceptionTranslator
 	 */
 	public PersistenceExceptionTranslationInterceptor() {
@@ -68,7 +79,10 @@ public class PersistenceExceptionTranslationInterceptor
 	/**
 	 * Create a new PersistenceExceptionTranslationInterceptor
 	 * for the given PersistenceExceptionTranslator.
-	 * @param pet the PersistenceExceptionTranslator to use
+	 * <p>
+	 *     使用指定的PersistenceExceptionTranslator创建PersistenceExceptionTranslationInterceptor
+	 * </p>
+	 * @param pet the PersistenceExceptionTranslator to use <br>指定异常转换器
 	 */
 	public PersistenceExceptionTranslationInterceptor(PersistenceExceptionTranslator pet) {
 		Assert.notNull(pet, "PersistenceExceptionTranslator must not be null");
@@ -78,8 +92,12 @@ public class PersistenceExceptionTranslationInterceptor
 	/**
 	 * Create a new PersistenceExceptionTranslationInterceptor, autodetecting
 	 * PersistenceExceptionTranslators in the given BeanFactory.
+	 * <p>
+	 *     创建一个新的PersistenceExceptionTranslationInterceptor，
+	 *     在给定的BeanFactory中自动检测PersistenceExceptionTranslators。
+	 * </p>
 	 * @param beanFactory the ListableBeanFactory to obtaining all
-	 * PersistenceExceptionTranslators from
+	 * PersistenceExceptionTranslators from <br>从ListableBeanFactory中获取所有的PersistenceExceptionTranslators
 	 */
 	public PersistenceExceptionTranslationInterceptor(ListableBeanFactory beanFactory) {
 		Assert.notNull(beanFactory, "ListableBeanFactory must not be null");
@@ -91,6 +109,9 @@ public class PersistenceExceptionTranslationInterceptor
 	 * Specify the PersistenceExceptionTranslator to use.
 	 * <p>Default is to autodetect all PersistenceExceptionTranslators
 	 * in the containing BeanFactory, using them in a chain.
+	 * <p>
+	 *     默认是自动检测包含的BeanFactory中的所有PersistenceExceptionTranslator，并在责任链中使用它们
+	 * </p>
 	 * @see #detectPersistenceExceptionTranslators
 	 */
 	public void setPersistenceExceptionTranslator(PersistenceExceptionTranslator pet) {
@@ -108,6 +129,9 @@ public class PersistenceExceptionTranslationInterceptor
 	 * originating method does explicitly declare compatible exceptions, the raw exception
 	 * will be rethrown. If you would like to avoid throwing raw exceptions in any case,
 	 * switch this flag to "true".
+	 * <p>
+	 *     ture为始终转换异常，false为允许抛出原始异常
+	 * </p>
 	 */
 	public void setAlwaysTranslate(boolean alwaysTranslate) {
 		this.alwaysTranslate = alwaysTranslate;
@@ -115,8 +139,11 @@ public class PersistenceExceptionTranslationInterceptor
 
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+		//始终转换异常
+		setAlwaysTranslate(true);
 		if (this.persistenceExceptionTranslator == null) {
 			// No explicit exception translator specified - perform autodetection.
+			//如果没有指定异常转换器，则执行自动检测
 			if (!(beanFactory instanceof ListableBeanFactory)) {
 				throw new IllegalArgumentException(
 						"Cannot use PersistenceExceptionTranslator autodetection without ListableBeanFactory");
@@ -127,6 +154,7 @@ public class PersistenceExceptionTranslationInterceptor
 
 	@Override
 	public void afterPropertiesSet() {
+		//在启动的时候判断persistenceExceptionTranslator 及beanFactory是否为null
 		if (this.persistenceExceptionTranslator == null && this.beanFactory == null) {
 			throw new IllegalArgumentException("Property 'persistenceExceptionTranslator' is required");
 		}
@@ -136,20 +164,25 @@ public class PersistenceExceptionTranslationInterceptor
 	@Override
 	public Object invoke(MethodInvocation mi) throws Throwable {
 		try {
+			//执行目标方法
 			return mi.proceed();
 		}
 		catch (RuntimeException ex) {
 			// Let it throw raw if the type of the exception is on the throws clause of the method.
+			//允许抛出原始异常，并且异常的类型为目标方法上已有的异常类型
 			if (!this.alwaysTranslate && ReflectionUtils.declaresException(mi.getMethod(), ex.getClass())) {
 				throw ex;
 			}
 			else {
 				PersistenceExceptionTranslator translator = this.persistenceExceptionTranslator;
 				if (translator == null) {
+					//beanFactory等于null
 					Assert.state(this.beanFactory != null, "No PersistenceExceptionTranslator set");
+					//检测beanFactory中的所有PersistenceExceptionTranslator
 					translator = detectPersistenceExceptionTranslators(this.beanFactory);
 					this.persistenceExceptionTranslator = translator;
 				}
+				//将原始异常转换为DataAccessException
 				throw DataAccessUtils.translateIfNecessary(ex, translator);
 			}
 		}
@@ -157,10 +190,14 @@ public class PersistenceExceptionTranslationInterceptor
 
 	/**
 	 * Detect all PersistenceExceptionTranslators in the given BeanFactory.
+	 * <p>
+	 *     从BeanFactory中检测所有的PersistenceExceptionTranslators
+	 * </p>
 	 * @param beanFactory the ListableBeanFactory to obtaining all
-	 * PersistenceExceptionTranslators from
+	 * PersistenceExceptionTranslators from <br>从ListableBeanFactory获取所有的PersistenceExceptionTranslators
 	 * @return a chained PersistenceExceptionTranslator, combining all
 	 * PersistenceExceptionTranslators found in the factory
+	 * <br> 返回有序的PersistenceExceptionTranslator链，包含所有的找到的PersistenceExceptionTranslators
 	 * @see ChainedPersistenceExceptionTranslator
 	 */
 	protected PersistenceExceptionTranslator detectPersistenceExceptionTranslators(ListableBeanFactory beanFactory) {
