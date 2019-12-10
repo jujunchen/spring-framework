@@ -56,6 +56,9 @@ public class Constants {
 	/**
 	 * Create a new Constants converter class wrapping the given class.
 	 * <p>All <b>public</b> static final variables will be exposed, whatever their type.
+	 * <p>
+	 *     根据给定的class创建新的常量转换器。所有的 public static final 常量都会暴露
+	 * </p>
 	 * @param clazz the class to analyze
 	 * @throws IllegalArgumentException if the supplied {@code clazz} is {@code null}
 	 */
@@ -259,10 +262,13 @@ public class Constants {
 	/**
 	 * Look up the given value within the given group of constants.
 	 * <p>Will return the first match.
-	 * @param value constant value to look up
-	 * @param namePrefix prefix of the constant names to search (may be {@code null})
-	 * @return the name of the constant field
-	 * @throws ConstantException if the value wasn't found
+	 * <p>
+	 *     在给定的常量组中查找给定的值。返回第一个匹配
+	 * </p>
+	 * @param value constant value to look up <br>要查找的常量值
+	 * @param namePrefix prefix of the constant names to search (may be {@code null}) <br>要搜索的常量名称前缀(可以为null)
+	 * @return the name of the constant field <br>常量字段的名称
+	 * @throws ConstantException if the value wasn't found <br>如果值没有找到，报错
 	 */
 	public String toCode(Object value, @Nullable String namePrefix) throws ConstantException {
 		String prefixToUse = (namePrefix != null ? namePrefix.trim().toUpperCase(Locale.ENGLISH) : "");
