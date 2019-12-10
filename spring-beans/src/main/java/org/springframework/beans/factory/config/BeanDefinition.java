@@ -131,6 +131,9 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	/**
 	 * Return the name of the current target scope for this bean,
 	 * or {@code null} if not known yet.
+	 * <p>
+	 *     返回当前bean的作用域，否则返回null
+	 * </p>
 	 */
 	@Nullable
 	String getScope();

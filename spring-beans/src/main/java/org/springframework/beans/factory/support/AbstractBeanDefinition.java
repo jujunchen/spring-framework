@@ -101,18 +101,27 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	/**
 	 * Constant that indicates no dependency check at all.
+	 * <p>
+	 *     表示根本没有依赖项检查的常数
+	 * </p>
 	 * @see #setDependencyCheck
 	 */
 	public static final int DEPENDENCY_CHECK_NONE = 0;
 
 	/**
 	 * Constant that indicates dependency checking for object references.
+	 * <p>
+	 *     指示对对象引用进行依赖检查的常数
+	 * </p>
 	 * @see #setDependencyCheck
 	 */
 	public static final int DEPENDENCY_CHECK_OBJECTS = 1;
 
 	/**
 	 * Constant that indicates dependency checking for "simple" properties.
+	 * <p>
+	 *     指示对“简单”属性进行依赖性检查的常数
+	 * </p>
 	 * @see #setDependencyCheck
 	 * @see org.springframework.beans.BeanUtils#isSimpleProperty
 	 */
@@ -121,6 +130,9 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	/**
 	 * Constant that indicates dependency checking for all properties
 	 * (object references as well as "simple" properties).
+	 * <p>
+	 *     指示对所有属性（对象引用以及“简单”属性）进行依赖性检查的常数。
+	 * </p>
 	 * @see #setDependencyCheck
 	 */
 	public static final int DEPENDENCY_CHECK_ALL = 3;
@@ -283,6 +295,9 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * Override settings in this bean definition (presumably a copied parent
 	 * from a parent-child inheritance relationship) from the given bean
 	 * definition (presumably the child).
+	 * <p>
+	 *     覆盖bean definition
+	 * </p>
 	 * <ul>
 	 * <li>Will override beanClass if specified in the given bean definition.
 	 * <li>Will always take {@code abstract}, {@code scope},
@@ -525,6 +540,10 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	/**
 	 * Return whether this bean is "abstract", i.e. not meant to be instantiated
 	 * itself but rather just serving as parent for concrete child bean definitions.
+	 *
+	 * <p>
+	 *     返回此bean是否为“抽象”，即意味着不要实例化它本身，而只是充当具体子bean定义的父对象。
+	 * </p>
 	 */
 	@Override
 	public boolean isAbstract() {
@@ -1105,6 +1124,9 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	/**
 	 * Validate and prepare the method overrides defined for this bean.
 	 * Checks for existence of a method with the specified name.
+	 * <p>
+	 *     验证并准备为此bean的方法覆盖。检查是否存在具有指定名称的方法。
+	 * </p>
 	 * @throws BeanDefinitionValidationException in case of validation failure
 	 */
 	public void prepareMethodOverrides() throws BeanDefinitionValidationException {
@@ -1118,6 +1140,9 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * Validate and prepare the given method override.
 	 * Checks for existence of a method with the specified name,
 	 * marking it as not overloaded if none found.
+	 * <p>
+	 *     验证并准备给定的方法重写。检查是否存在具有指定名称的方法，如果找不到该方法，则将其标记为未重载。
+	 * </p>
 	 * @param mo the MethodOverride object to validate
 	 * @throws BeanDefinitionValidationException in case of validation failure
 	 */
@@ -1130,6 +1155,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 		}
 		else if (count == 1) {
 			// Mark override as not overloaded, to avoid the overhead of arg type checking.
+			//标记覆盖方法为未重载，避免类型检查的开销
 			mo.setOverloaded(false);
 		}
 	}

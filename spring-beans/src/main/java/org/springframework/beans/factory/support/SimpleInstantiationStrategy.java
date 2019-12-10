@@ -37,6 +37,11 @@ import org.springframework.util.StringUtils;
  * <p>Does not support Method Injection, although it provides hooks for subclasses
  * to override to add Method Injection support, for example by overriding methods.
  *
+ * <p>
+ *     在BeanFactory中使用的简单对象实例化策略。
+ * 不支持方法注入，尽管它为子类提供了钩子来覆盖以添加方法注入支持，例如通过overriding方法。
+ * </p>
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 1.1
@@ -60,10 +65,13 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 	@Override
 	public Object instantiate(RootBeanDefinition bd, @Nullable String beanName, BeanFactory owner) {
 		// Don't override the class with CGLIB if no overrides.
+		//如果Bean定义中没有方法覆盖，就不需要CGLib父类的方法
 		if (!bd.hasMethodOverrides()) {
 			Constructor<?> constructorToUse;
 			synchronized (bd.constructorArgumentLock) {
+				//获取对象的构造方法或工厂方法
 				constructorToUse = (Constructor<?>) bd.resolvedConstructorOrFactoryMethod;
+				//如果没有构造方法且没有工厂方法
 				if (constructorToUse == null) {
 					final Class<?> clazz = bd.getBeanClass();
 					if (clazz.isInterface()) {
@@ -84,6 +92,7 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 					}
 				}
 			}
+			//使用反射调用构造方法的newInstance来进行实例化
 			return BeanUtils.instantiateClass(constructorToUse);
 		}
 		else {
@@ -97,6 +106,9 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 	 * UnsupportedOperationException, if they can instantiate an object with
 	 * the Method Injection specified in the given RootBeanDefinition.
 	 * Instantiation should use a no-arg constructor.
+	 * <p>
+	 *     子类可以重写此方法，如果子类可以使用给定RootBeanDefinition中指定的方法注入实例化对象，则该方法将引发UnsupportedOperationException。实例化应使用no-arg构造函数。
+	 * </p>
 	 */
 	protected Object instantiateWithMethodInjection(RootBeanDefinition bd, @Nullable String beanName, BeanFactory owner) {
 		throw new UnsupportedOperationException("Method Injection not supported in SimpleInstantiationStrategy");

@@ -36,6 +36,10 @@ import java.beans.PropertyDescriptor;
  * is "false", to avoid side effects caused by getter method invocations.
  * Turn this to "true" to expose present property values to custom editors.
  *
+ <p>
+ *     Spring 低等级JavaBeans 接口
+ * </p>
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 13 April 2001
@@ -51,29 +55,48 @@ public interface BeanWrapper extends ConfigurablePropertyAccessor {
 	/**
 	 * Specify a limit for array and collection auto-growing.
 	 * <p>Default is unlimited on a plain BeanWrapper.
+	 * <p>
+	 *	指定数组和集合自动增长限制，在普通的BeanWrapper上，默认值是无限的
+	 * </p>
 	 * @since 4.1
 	 */
 	void setAutoGrowCollectionLimit(int autoGrowCollectionLimit);
 
 	/**
 	 * Return the limit for array and collection auto-growing.
+	 *
+	 * <p>
+	 *     返回数组和集合自动增长限制值
+	 * </p>
 	 * @since 4.1
 	 */
 	int getAutoGrowCollectionLimit();
 
 	/**
 	 * Return the bean instance wrapped by this object.
+	 * <p>
+	 *     返回此对象包装的bean实例（如果有）。
+	 * </p>
+	 * @return the bean instance, or {@code null} if none set
 	 */
 	Object getWrappedInstance();
 
 	/**
 	 * Return the type of the wrapped bean instance.
+	 * <p>
+	 *     返回包装的JavaBean对象的类型。
+	 * </p>
+	 * @return the type of the wrapped bean instance,
+	 * or {@code null} if no wrapped object has been set
 	 */
 	Class<?> getWrappedClass();
 
 	/**
 	 * Obtain the PropertyDescriptors for the wrapped object
 	 * (as determined by standard JavaBeans introspection).
+	 * <p>
+	 *     获取包装对象的PropertyDescriptors
+	 * </p>
 	 * @return the PropertyDescriptors for the wrapped object
 	 */
 	PropertyDescriptor[] getPropertyDescriptors();
@@ -81,8 +104,12 @@ public interface BeanWrapper extends ConfigurablePropertyAccessor {
 	/**
 	 * Obtain the property descriptor for a specific property
 	 * of the wrapped object.
+	 * <p>
+	 *     获取包装对象的特定属性的属性描述符。
+	 * </p>
 	 * @param propertyName the property to obtain the descriptor for
-	 * (may be a nested path, but no indexed/mapped property)
+	 * (may be a nested path, but no indexed/mapped property)<br>
+	  用于获取其描述符的属性（可以是嵌套路径，但是没有索引/映射的属性）
 	 * @return the property descriptor for the specified property
 	 * @throws InvalidPropertyException if there is no such property
 	 */

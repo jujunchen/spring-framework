@@ -197,6 +197,12 @@ public interface PropertyAccessor {
 	 * {@link PropertyBatchUpdateException} containing all the individual errors.
 	 * This exception can be examined later to see all binding errors.
 	 * Properties that were successfully updated remain changed.
+	 *
+	 * <P>
+	 *     通过更多控制行为执行批量更新。
+	 * 请注意，执行批量更新与执行单个更新不同，因为如果遇到可恢复的错误（例如类型不匹配，但不是无效的字段名称等），则此类的实现将继续更新属性包含所有单个错误的PropertyBatchUpdateException
+	 * 。稍后可以检查此异常以查看所有绑定错误。已成功更新的属性仍会更改。
+	 * </P>
 	 * @param pvs a PropertyValues to set on the target object
 	 * @param ignoreUnknown should we ignore unknown properties (not found in the bean)
 	 * @throws InvalidPropertyException if there is no such property or

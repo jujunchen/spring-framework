@@ -28,6 +28,11 @@ import org.springframework.lang.Nullable;
  * In addition to {@link ConfigurableBeanFactory}, it provides facilities to
  * analyze and modify bean definitions, and to pre-instantiate singletons.
  *
+ * <p>
+ *    配置接口大多由listable bean factory实现，{@link ConfigurableBeanFactory},
+ *    它还提供分析和修改bean定义及预实例化单例的功能
+ * </p>
+ *
  * <p>This subinterface of {@link org.springframework.beans.factory.BeanFactory}
  * is not meant to be used in normal application code: Stick to
  * {@link org.springframework.beans.factory.BeanFactory} or
@@ -45,6 +50,9 @@ public interface ConfigurableListableBeanFactory
 	/**
 	 * Ignore the given dependency type for autowiring:
 	 * for example, String. Default is none.
+	 *
+	 * 忽略autowiring的给定依赖类型:例如String。默认是没有的。
+	 *
 	 * @param type the dependency type to ignore
 	 */
 	void ignoreDependencyType(Class<?> type);

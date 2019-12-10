@@ -63,6 +63,11 @@ public interface BeanPostProcessor {
 	 * or a custom init-method). The bean will already be populated with property values.
 	 * The returned bean instance may be a wrapper around the original.
 	 * <p>The default implementation returns the given {@code bean} as-is.
+	 * <p>
+	 *     在任何bean初始化回调之前(如InitializingBean的afterPropertiesSet或自定义init-method)
+	 *     ，将此BeanPostProcessor应用于给定的新bean实例。bean中已经填充了属性值。返回的bean实例可能是原始bean的包装器。
+	 * 默认实现按原样返回给定的bean。
+	 * </p>
 	 * @param bean the new bean instance
 	 * @param beanName the name of the bean
 	 * @return the bean instance to use, either the original or a wrapped one;
@@ -88,6 +93,13 @@ public interface BeanPostProcessor {
 	 * {@link InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation} method,
 	 * in contrast to all other {@code BeanPostProcessor} callbacks.
 	 * <p>The default implementation returns the given {@code bean} as-is.
+	 * <p>
+	 *     在任何bean初始化回调之后(如InitializingBean的afterPropertiesSet或自定义init-method)
+	 *     ，将此BeanPostProcessor应用于给定的新bean实例。bean中已经填充了属性值。返回的bean实例可能是原始bean的包装器。
+	 *
+	 * 对于FactoryBean，这个回调将同时为FactoryBean实例和FactoryBean创建的对象调用(从Spring 2.0开始)。后处理器可以通过相应的bean instanceof
+	 * FactoryBean检查来决定是应用于FactoryBean还是应用于创建的对象，或者两者都应用。
+	 * </p>
 	 * @param bean the new bean instance
 	 * @param beanName the name of the bean
 	 * @return the bean instance to use, either the original or a wrapped one;

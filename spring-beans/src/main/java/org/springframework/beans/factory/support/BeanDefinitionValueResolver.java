@@ -89,6 +89,9 @@ class BeanDefinitionValueResolver {
 	/**
 	 * Given a PropertyValue, return a value, resolving any references to other
 	 * beans in the factory if necessary. The value could be:
+	 * <p>
+	 *     给定一个PropertyValue，返回一个值，如有必要，解析对工厂中其他bean的任何引用。该值可以是：
+	 * </p>
 	 * <li>A BeanDefinition, which leads to the creation of a corresponding
 	 * new bean instance. Singleton flags and names of such "inner beans"
 	 * are always ignored: Inner beans are anonymous prototypes.
@@ -108,19 +111,24 @@ class BeanDefinitionValueResolver {
 	public Object resolveValueIfNecessary(Object argName, @Nullable Object value) {
 		// We must check each value to see whether it requires a runtime reference
 		// to another bean to be resolved.
+		//我们必须检查每个值，以查看它是否需要对另一个bean的运行时引用才能解决。
 		if (value instanceof RuntimeBeanReference) {
 			RuntimeBeanReference ref = (RuntimeBeanReference) value;
+			//对引用类型属性进行解析
 			return resolveReference(argName, ref);
 		}
+		//对引用容器中另一个Bean名称的属性进行解析
 		else if (value instanceof RuntimeBeanNameReference) {
 			String refName = ((RuntimeBeanNameReference) value).getBeanName();
 			refName = String.valueOf(doEvaluate(refName));
+			//从容器中获取指定名称的bean
 			if (!this.beanFactory.containsBean(refName)) {
 				throw new BeanDefinitionStoreException(
 						"Invalid bean name '" + refName + "' in bean reference for " + argName);
 			}
 			return refName;
 		}
+		//对Bean类型属性的解析，主要指Bean中的内部类
 		else if (value instanceof BeanDefinitionHolder) {
 			// Resolve BeanDefinitionHolder: contains BeanDefinition with name and aliases.
 			BeanDefinitionHolder bdHolder = (BeanDefinitionHolder) value;
@@ -128,6 +136,7 @@ class BeanDefinitionValueResolver {
 		}
 		else if (value instanceof BeanDefinition) {
 			// Resolve plain BeanDefinition, without contained name: use dummy name.
+			//解析纯BeanDefinition，不包含名称：使用虚拟名称
 			BeanDefinition bd = (BeanDefinition) value;
 			String innerBeanName = "(inner bean)" + BeanFactoryUtils.GENERATED_BEAN_NAME_SEPARATOR +
 					ObjectUtils.getIdentityHexString(bd);
@@ -144,14 +153,18 @@ class BeanDefinitionValueResolver {
 			}
 			return result;
 		}
+		//对集合数组类型的属性进行解析
 		else if (value instanceof ManagedArray) {
 			// May need to resolve contained runtime references.
 			ManagedArray array = (ManagedArray) value;
+			//获取数组的类型
 			Class<?> elementType = array.resolvedElementType;
 			if (elementType == null) {
+				//获取数组元素的类型
 				String elementTypeName = array.getElementTypeName();
 				if (StringUtils.hasText(elementTypeName)) {
 					try {
+						//使用反射机制创建指定类型的对象
 						elementType = ClassUtils.forName(elementTypeName, this.beanFactory.getBeanClassLoader());
 						array.resolvedElementType = elementType;
 					}
@@ -163,9 +176,11 @@ class BeanDefinitionValueResolver {
 					}
 				}
 				else {
+					//其他情况，直接设置Object类型
 					elementType = Object.class;
 				}
 			}
+			//创建数组
 			return resolveManagedArray(argName, (List<?>) value, elementType);
 		}
 		else if (value instanceof ManagedList) {
@@ -204,8 +219,10 @@ class BeanDefinitionValueResolver {
 			TypedStringValue typedStringValue = (TypedStringValue) value;
 			Object valueObject = evaluate(typedStringValue);
 			try {
+				//获取属性的目标类型
 				Class<?> resolvedTargetType = resolveTargetType(typedStringValue);
 				if (resolvedTargetType != null) {
+					//对目标类型的属性进行解析，递归调用
 					return this.typeConverter.convertIfNecessary(valueObject, resolvedTargetType);
 				}
 				else {
@@ -243,6 +260,9 @@ class BeanDefinitionValueResolver {
 
 	/**
 	 * Evaluate the given value as an expression, if necessary.
+	 * <p>
+	 *     如有必要，将给定值作为表达式求值。
+	 * </p>
 	 * @param value the original value (may be an expression)
 	 * @return the resolved value if necessary, or the original value
 	 */
@@ -272,6 +292,9 @@ class BeanDefinitionValueResolver {
 
 	/**
 	 * Evaluate the given String value as an expression, if necessary.
+	 * <p>
+	 *     如有必要，将给定的String值评估为表达式。
+	 * </p>
 	 * @param value the original value (may be an expression)
 	 * @return the resolved value if necessary, or the original String value
 	 */
@@ -409,6 +432,9 @@ class BeanDefinitionValueResolver {
 
 	/**
 	 * For each element in the managed array, resolve reference if necessary.
+	 * <p>
+	 *     对于托管数组中的每个元素，如有必要，请解析引用。
+	 * </p>
 	 */
 	private Object resolveManagedArray(Object argName, List<?> ml, Class<?> elementType) {
 		Object resolved = Array.newInstance(elementType, ml.size());

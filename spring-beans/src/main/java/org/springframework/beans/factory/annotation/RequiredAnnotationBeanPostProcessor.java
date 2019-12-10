@@ -66,6 +66,18 @@ import org.springframework.util.Assert;
  * Remove or turn off the default annotation configuration there if you intend
  * to specify a custom RequiredAnnotationBeanPostProcessor bean definition.
  *
+ * <p>
+ *     org.springframework.beans.factory.config.BeanPostProcessor实现，用于强制配置所需的JavaBean属性。<br>
+ *     通过Java 5注释检测所需的bean属性：默认情况下，Spring的Required注释。<br>
+ * 存在此BeanPostProcessor的动机是允许开发人员使用任意JDK 1.5注释来注释其自己的类的setter属性，以指示容器必须检查依赖注入值的配置。
+ * <br>这巧妙地将这种检查的责任推到了容器上（它可以说属于它），并且不需要（部分地）开发人员编写一个方法来简单地检查所有必需的属性是否已经实际设置。
+ * <br>请注意，'init'方法可能仍然需要实现（并且可能仍然需要），因为此类所做的所有操作都强制实际上已经使用值配置了“required”属性。
+ * <br>它不会检查任何其他内容...特别是，它不会检查配置的值是否为空。
+ * <br>注意：默认的RequiredAnnotationBeanPostProcessor将由“context：annotation-config”和“context：component-scan”XML
+ * 标记注册。
+ * <br>如果要指定自定义RequiredAnnotationBeanPostProcessor bean定义，请删除或关闭默认注释配置。
+ * </p>
+ *
  * @author Rob Harrop
  * @author Juergen Hoeller
  * @since 2.0

@@ -68,6 +68,9 @@ import org.springframework.util.StringUtils;
  * Delegate for resolving constructors and factory methods.
  * <p>Performs constructor resolution through argument matching.
  *
+ * <p>
+ *     委托来解析构造函数和工厂方法。通过参数匹配执行构造函数解析。
+ * </p>
  * @author Juergen Hoeller
  * @author Rob Harrop
  * @author Mark Fisher
@@ -100,6 +103,9 @@ class ConstructorResolver {
 
 	/**
 	 * Create a new ConstructorResolver for the given factory and instantiation strategy.
+	 * <p>
+	 *     为给定的工厂和实例化策略创建一个新的构造解析器。
+	 * </p>
 	 * @param beanFactory the BeanFactory to work with
 	 */
 	public ConstructorResolver(AbstractAutowireCapableBeanFactory beanFactory) {
@@ -251,6 +257,7 @@ class ConstructorResolver {
 				int typeDiffWeight = (mbd.isLenientConstructorResolution() ?
 						argsHolder.getTypeDifferenceWeight(paramTypes) : argsHolder.getAssignabilityWeight(paramTypes));
 				// Choose this constructor if it represents the closest match.
+				//选择最接近的匹配项
 				if (typeDiffWeight < minTypeDiffWeight) {
 					constructorToUse = candidate;
 					argsHolderToUse = argsHolder;

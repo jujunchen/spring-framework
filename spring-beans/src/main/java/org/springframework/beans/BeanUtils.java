@@ -116,6 +116,10 @@ public abstract class BeanUtils {
 	 * (for regular Java classes, expecting a standard no-arg setup).
 	 * <p>Note that this method tries to set the constructor accessible
 	 * if given a non-accessible (that is, non-public) constructor.
+	 * <p>
+	 *     使用no-arg构造函数实例化一个类。
+	 * 请注意，如果给定不可访问（即非公共）构造函数，此方法会尝试设置构造函数。
+	 * </p>
 	 * @param clazz the class to instantiate
 	 * @return the new instance
 	 * @throws BeanInstantiationException if the bean cannot be instantiated.
@@ -170,6 +174,10 @@ public abstract class BeanUtils {
 	 * <p>Note that this method tries to set the constructor accessible if given a
 	 * non-accessible (that is, non-public) constructor, and supports Kotlin classes
 	 * with optional parameters and default values.
+	 * <p>
+	 *     使用给定构造函数实例化类的便利方法。
+	 * <p>
+	 * 注意，如果给定不可访问(即非公共)构造函数，此方法将尝试设置可访问的构造函数。
 	 * @param ctor the constructor to instantiate
 	 * @param args the constructor arguments to apply (use {@code null} for an unspecified
 	 * parameter, Kotlin optional parameters and Java primitive types are supported)

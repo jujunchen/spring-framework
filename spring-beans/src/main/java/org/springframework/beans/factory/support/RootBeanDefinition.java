@@ -71,10 +71,16 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	volatile ResolvableType targetType;
 
 	/** Package-visible field for caching the determined Class of a given bean definition. */
+	/**
+	 * 用于缓存给定bean定义的已确定类的包可见字段
+	 */
 	@Nullable
 	volatile Class<?> resolvedTargetType;
 
 	/** Package-visible field for caching if the bean is a factory bean. */
+	/**
+	 * 用于缓存一般类型工厂方法的返回类型的包可见字段
+	 */
 	@Nullable
 	volatile Boolean isFactoryBean;
 
@@ -86,31 +92,55 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	@Nullable
 	volatile Method factoryMethodToIntrospect;
 
-	/** Common lock for the four constructor fields below. */
+	/** Common lock for the four constructor fields below */
+	/**
+	 * 下面4个构造函数的公共锁
+	 */
 	final Object constructorArgumentLock = new Object();
 
 	/** Package-visible field for caching the resolved constructor or factory method. */
 	@Nullable
+	/**
+	 * 用于缓存已解析构造函数或工厂方法的包可见字段
+	 */
 	Executable resolvedConstructorOrFactoryMethod;
 
-	/** Package-visible field that marks the constructor arguments as resolved. */
+	/** Package-visible field that marks the constructor arguments as resolved */
+	/**
+	 * 包可见字段，将构造函数参数标记为已解析
+	 */
 	boolean constructorArgumentsResolved = false;
 
 	/** Package-visible field for caching fully resolved constructor arguments. */
 	@Nullable
+	/**
+	 * 包可见字段，用于缓存完全解析的构造函数参数
+	 */
 	Object[] resolvedConstructorArguments;
 
 	/** Package-visible field for caching partly prepared constructor arguments. */
 	@Nullable
+	/**
+	 * 用于缓存部分准备好的构造函数参数的包可见字段
+	 */
 	Object[] preparedConstructorArguments;
 
 	/** Common lock for the two post-processing fields below. */
+	/**
+	 * 后处理器公共锁
+	 */
 	final Object postProcessingLock = new Object();
 
 	/** Package-visible field that indicates MergedBeanDefinitionPostProcessor having been applied. */
+	/**
+	 * 包可见字段，表示MergedBeanDefinitionPostProcessor是否已经应用
+	 */
 	boolean postProcessed = false;
 
 	/** Package-visible field that indicates a before-instantiation post-processor having kicked in. */
+	/**
+	 * 包可见字段，表示实例化前后置处理器是否已经启动
+	 */
 	@Nullable
 	volatile Boolean beforeInstantiationResolved;
 
