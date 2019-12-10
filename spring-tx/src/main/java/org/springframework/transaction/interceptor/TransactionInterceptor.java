@@ -43,6 +43,13 @@ import org.springframework.transaction.PlatformTransactionManager;
  *
  * <p>TransactionInterceptors are thread-safe.
  *
+ * <p>
+ *     AOP Alliance MethodInterceptor使用公共Spring事务基础结构（PlatformTransactionManager）进行声明式事务管理。<br>
+ * 派生自TransactionAspectSupport类，该类包含与Spring的底层事务API的集成。 <br>
+ * TransactionInterceptor只是以正确的顺序调用相关的超类方法，例如invokeWithinTransaction。
+ * TransactionInterceptors是线程安全的。
+ * </p>
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @see TransactionProxyFactoryBean

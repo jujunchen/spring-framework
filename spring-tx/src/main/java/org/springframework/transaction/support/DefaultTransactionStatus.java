@@ -67,18 +67,21 @@ public class DefaultTransactionStatus extends AbstractTransactionStatus {
 
 	/**
 	 * Create a new {@code DefaultTransactionStatus} instance.
+	 * <p>
+	 *     创建一个新的DefaultTransactionStatus实例
+	 * </p>
 	 * @param transaction underlying transaction object that can hold state
-	 * for the internal transaction implementation
+	 * for the internal transaction implementation<br>基础事务对象持有内部事务实现状态
 	 * @param newTransaction if the transaction is new, otherwise participating
 	 * in an existing transaction
 	 * @param newSynchronization if a new transaction synchronization has been
-	 * opened for the given transaction
-	 * @param readOnly whether the transaction is marked as read-only
+	 * opened for the given transaction<br>是否新事务，如果是表示创建新事务，否则则加入已有的事
+	 * @param readOnly whether the transaction is marked as read-only<br>这个事务是否只读
 	 * @param debug should debug logging be enabled for the handling of this transaction?
 	 * Caching it in here can prevent repeated calls to ask the logging system whether
-	 * debug logging should be enabled.
+	 * debug logging should be enabled.<br>是否开启debug来记录此事务日志
 	 * @param suspendedResources a holder for resources that have been suspended
-	 * for this transaction, if any
+	 * for this transaction, if any<br>暂停此事务的资源持有者
 	 */
 	public DefaultTransactionStatus(
 			@Nullable Object transaction, boolean newTransaction, boolean newSynchronization,
@@ -104,6 +107,9 @@ public class DefaultTransactionStatus extends AbstractTransactionStatus {
 
 	/**
 	 * Return whether there is an actual transaction active.
+	 * <p>
+	 *     返回是否有实际激活的事务
+	 * </p>
 	 */
 	public boolean hasTransaction() {
 		return (this.transaction != null);
@@ -117,6 +123,9 @@ public class DefaultTransactionStatus extends AbstractTransactionStatus {
 	/**
 	 * Return if a new transaction synchronization has been opened
 	 * for this transaction.
+	 * <p>
+	 *     返回是否是新事务同步
+	 * </p>
 	 */
 	public boolean isNewSynchronization() {
 		return this.newSynchronization;

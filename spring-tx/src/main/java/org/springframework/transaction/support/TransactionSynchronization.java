@@ -29,6 +29,12 @@ import java.io.Flushable;
  * <p>System synchronizations performed by Spring itself use specific order values,
  * allowing for fine-grained interaction with their execution order (if necessary).
  *
+ * <p>
+ *     事务同步回调的接口。AbstractPlatformTransactionManager支持。
+ *     Spring本身执行的系统同步使用指定的顺序值，从而允许与其执行顺序进行细粒度的交互（如有必要）。
+ * <p>
+ *     TransactionSynchronization的实现可以实现Ordered接口以影响其执行顺序。未实现Ordered接口的同步将附加到同步链的末尾。
+ *
  * @author Juergen Hoeller
  * @since 02.06.2003
  * @see TransactionSynchronizationManager
@@ -37,19 +43,31 @@ import java.io.Flushable;
  */
 public interface TransactionSynchronization extends Flushable {
 
-	/** Completion status in case of proper commit. */
+	/** Completion status in case of proper commit */
+	/**
+	 * 正确提交的完成状态
+	 */
 	int STATUS_COMMITTED = 0;
 
-	/** Completion status in case of proper rollback. */
+	/** Completion status in case of proper rollback */
+	/**
+	 * 回滚时的完成状态
+	 */
 	int STATUS_ROLLED_BACK = 1;
 
-	/** Completion status in case of heuristic mixed completion or system errors. */
+	/** Completion status in case of heuristic mixed completion or system errors */
+	/**
+	 * 未知情况下的完成状态
+	 */
 	int STATUS_UNKNOWN = 2;
 
 
 	/**
 	 * Suspend this synchronization.
 	 * Supposed to unbind resources from TransactionSynchronizationManager if managing any.
+	 * <p>
+	 *     暂停同步。需要先从TransactionSynchronizationManager解除绑定
+	 * </p>
 	 * @see TransactionSynchronizationManager#unbindResource
 	 */
 	default void suspend() {
@@ -58,6 +76,9 @@ public interface TransactionSynchronization extends Flushable {
 	/**
 	 * Resume this synchronization.
 	 * Supposed to rebind resources to TransactionSynchronizationManager if managing any.
+	 * <p>
+	 *     恢复同步。需要绑定到TransactionSynchronizationManager
+	 * </p>
 	 * @see TransactionSynchronizationManager#bindResource
 	 */
 	default void resume() {
@@ -66,6 +87,9 @@ public interface TransactionSynchronization extends Flushable {
 	/**
 	 * Flush the underlying session to the datastore, if applicable:
 	 * for example, a Hibernate/JPA session.
+	 * <p>
+	 *     如果适用，将基础session刷新到数据存储区，比如 Hibernate/JPA session
+	 * </p>
 	 * @see org.springframework.transaction.TransactionStatus#flush()
 	 */
 	@Override
@@ -81,9 +105,16 @@ public interface TransactionSynchronization extends Flushable {
 	 * to happen, such as flushing SQL statements to the database.
 	 * <p>Note that exceptions will get propagated to the commit caller and cause a
 	 * rollback of the transaction.
-	 * @param readOnly whether the transaction is defined as read-only transaction
+	 * <p>
+	 *     在事务提交之前调用（在 beforeCompletion前）,例如将事务性O/R映射会话刷新到数据库。
+	 * <p>
+	 *     此回调并不是真正提交事务，在调用此方法后，事务仍然可以回滚。
+	 * <p>
+	 *     如果有异常，将传播给调用者
+	 *
+	 * @param readOnly whether the transaction is defined as read-only transaction <br>事务是否为只读
 	 * @throws RuntimeException in case of errors; will be <b>propagated to the caller</b>
-	 * (note: do not throw TransactionException subclasses here!)
+	 * (note: do not throw TransactionException subclasses here!)<br>如果发生异常，将传播给调用者
 	 * @see #beforeCompletion
 	 */
 	default void beforeCommit(boolean readOnly) {
@@ -95,8 +126,13 @@ public interface TransactionSynchronization extends Flushable {
 	 * <p>This method will be invoked after {@code beforeCommit}, even when
 	 * {@code beforeCommit} threw an exception. This callback allows for
 	 * closing resources before transaction completion, for any outcome.
+	 * <p>
+	 *     在事务提交/回滚之前调用，可以在事务完成之前执行资源清理。
+	 * <p>
+	 *     即使在{@code beforeCommit}引发异常，也会在{@code beforeCommit}之后调用此方法。
+	 *     对于任何结果，此回调都允许在事务完成之前关闭资源。
 	 * @throws RuntimeException in case of errors; will be <b>logged but not propagated</b>
-	 * (note: do not throw TransactionException subclasses here!)
+	 * (note: do not throw TransactionException subclasses here!) 发生异常将被记录，而不抛出
 	 * @see #beforeCommit
 	 * @see #afterCompletion
 	 */
@@ -115,8 +151,14 @@ public interface TransactionSynchronization extends Flushable {
 	 * anymore!), unless it explicitly declares that it needs to run in a separate
 	 * transaction. Hence: <b>Use {@code PROPAGATION_REQUIRES_NEW} for any
 	 * transactional operation that is called from here.</b>
+	 * <p>
+	 *     事务提交后调用。在成功提交事务后，可以执行进一步操作。
+	 * <p>
+	 *     <b>注意：</b>事务已经被提交后，事务资源可能仍处于活动状态并且可以访问。因此，如果此时触发的任务数据访问仍将
+	 *     参与原始事务，允许进行一些清除操作（不再进行提交操作），除非明确声明需要在单独的事务中运行。<b>因此：对于此处调用的任何事务操作，请使用{@code PROPAGATION_REQUIRES_NEW}</b>
+	 *
 	 * @throws RuntimeException in case of errors; will be <b>propagated to the caller</b>
-	 * (note: do not throw TransactionException subclasses here!)
+	 * (note: do not throw TransactionException subclasses here!) 发送异常，将会传播给调用者
 	 */
 	default void afterCommit() {
 	}
@@ -131,6 +173,12 @@ public interface TransactionSynchronization extends Flushable {
 	 * following anymore!), unless it explicitly declares that it needs to run in a
 	 * separate transaction. Hence: <b>Use {@code PROPAGATION_REQUIRES_NEW}
 	 * for any transactional operation that is called from here.</b>
+	 * <p>
+	 *     在事务提交/回滚后调用。事务完成后可以执行清理操作。
+	 * <p>
+	 *     <b>注意：</b>事务已经被提交后，事务资源可能仍处于活动状态并且可以访问。因此，如果此时触发的任务数据访问仍将
+	 * 	   参与原始事务，允许进行一些清除操作（不再进行提交操作），除非明确声明需要在单独的事务中运行。<b>因此：对于此处调用的任何事务操作，请使用{@code PROPAGATION_REQUIRES_NEW}
+	 * 	 </b>
 	 * @param status completion status according to the {@code STATUS_*} constants
 	 * @throws RuntimeException in case of errors; will be <b>logged but not propagated</b>
 	 * (note: do not throw TransactionException subclasses here!)

@@ -32,6 +32,11 @@ import org.springframework.util.Assert;
  * faster than just letting the TransactionInterceptor run and find out
  * itself that it has no work to do.
  *
+ * <P>
+ *     由TransactionAttributeSource Advisor驱动，用于仅为事务性方法包含TransactionInterceptor。<br>
+ * 因为AOP框架缓存advice计算，所以这通常比让TransactionInterceptor运行并发现自己没有工作要快。
+ * </P>
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @see #setTransactionInterceptor
@@ -43,7 +48,9 @@ public class TransactionAttributeSourceAdvisor extends AbstractPointcutAdvisor {
 	@Nullable
 	private TransactionInterceptor transactionInterceptor;
 
+	//使用内部类定义pointcut
 	private final TransactionAttributeSourcePointcut pointcut = new TransactionAttributeSourcePointcut() {
+		//调用transactionInterceptor得到事务配置属性，在对Proxy的方法进行匹配调用时，会使用到这些配置属性
 		@Override
 		@Nullable
 		protected TransactionAttributeSource getTransactionAttributeSource() {

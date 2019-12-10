@@ -28,6 +28,13 @@ package org.springframework.transaction;
  * <p>This interface is inspired by JDBC 3.0's Savepoint mechanism
  * but is independent from any specific persistence technology.
  *
+ * <p>
+ *     该接口提供编程的方式管理事务保存点的通用方法。TransactionStatus扩展该接口，以提供事务保存点的管理功能。
+ * <p>
+ *     注意：保存点只能在活动的事务中工作。只需要使用编程式的保存点管理方法就可以处理高级需求，否则最好使用PROPAGATION_NESTED的子事务。
+ * <p>
+ *     这个接口受JDBC 3.0保存点启发，但独立于任何指定的持久性技术。
+ *
  * @author Juergen Hoeller
  * @since 1.1
  * @see TransactionStatus
@@ -42,12 +49,18 @@ public interface SavepointManager {
 	 * that you don't need anymore via {@code releaseSavepoint}.
 	 * <p>Note that most transaction managers will automatically release
 	 * savepoints at transaction completion.
-	 * @return a savepoint object, to be passed into
+	 * <p>
+	 *     创建一个新的保存点，能够通过{@code rollbackToSavepoint}回滚事务到指定的保存点，
+	 *     也可以通过{@code releaseSavepoint}释放已经不再需要的保存点
+	 * <p>
+	 *     通常大多数事务管理器将在事务完成后自动释放保存点
+	 * @return a savepoint object, to be passed into <br>一个保存点对象
 	 * {@link #rollbackToSavepoint} or {@link #releaseSavepoint}
 	 * @throws NestedTransactionNotSupportedException if the underlying
-	 * transaction does not support savepoints
+	 * transaction does not support savepoints <br>如果事务不支持保存点，抛错
 	 * @throws TransactionException if the savepoint could not be created,
-	 * for example because the transaction is not in an appropriate state
+	 * for example because the transaction is not in an appropriate state <br>
+	 *     如果不能创建事务，比如事务处于一个不正确的状态，抛错
 	 * @see java.sql.Connection#setSavepoint
 	 */
 	Object createSavepoint() throws TransactionException;
@@ -57,10 +70,15 @@ public interface SavepointManager {
 	 * <p>The savepoint will <i>not</i> be automatically released afterwards.
 	 * You may explicitly call {@link #releaseSavepoint(Object)} or rely on
 	 * automatic release on transaction completion.
-	 * @param savepoint the savepoint to roll back to
+	 * <p>
+	 *     回滚事务到指定的保存点。
+	 * <p>
+	 *     之后，这个保存点将不会自动释放，需要显式调用 {@link #releaseSavepoint(Object)}
+	 *     或者 等待事务完成后自动释放
+	 * @param savepoint the savepoint to roll back to <br>要回退到的保存点
 	 * @throws NestedTransactionNotSupportedException if the underlying
-	 * transaction does not support savepoints
-	 * @throws TransactionException if the rollback failed
+	 * transaction does not support savepoints<br>如果事务不支持保存点，抛错
+	 * @throws TransactionException if the rollback failed <br>如果回滚失败
 	 * @see java.sql.Connection#rollback(java.sql.Savepoint)
 	 */
 	void rollbackToSavepoint(Object savepoint) throws TransactionException;
@@ -71,10 +89,14 @@ public interface SavepointManager {
 	 * savepoints on transaction completion.
 	 * <p>Implementations should fail as silently as possible if proper
 	 * resource cleanup will eventually happen at transaction completion.
-	 * @param savepoint the savepoint to release
+	 * <p>
+	 *     释放指定的保存点。
+	 * <p>
+	 *     大多数事务管理器将在事务完成后自动释放保存点。
+	 * @param savepoint the savepoint to release <br>需要释放的保存点
 	 * @throws NestedTransactionNotSupportedException if the underlying
-	 * transaction does not support savepoints
-	 * @throws TransactionException if the release failed
+	 * transaction does not support savepoints<br>如果事务不支持保存点，抛错
+	 * @throws TransactionException if the release failed<br>如果释放失败，抛错
 	 * @see java.sql.Connection#releaseSavepoint
 	 */
 	void releaseSavepoint(Object savepoint) throws TransactionException;

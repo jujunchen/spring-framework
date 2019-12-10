@@ -27,6 +27,11 @@ import org.springframework.lang.Nullable;
  * without forcing a single translator to understand every single possible type
  * of exception.
  *
+ * <p>
+ *	Spring 集成的接口与抛出运行时异常的数据访问技术一起使用，比如 JPA 和 Hibernate
+ * <p>
+ *     这样可以一致的使用组合的异常转换功能，而不必翻译每种可能的异常类型
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 2.0
@@ -45,10 +50,15 @@ public interface PersistenceExceptionTranslator {
 	 * DataIntegrityViolationException, for example on constraint violation.
 	 * Implementations may use Spring JDBC's sophisticated exception translation
 	 * to provide further information in the event of SQLException as a root cause.
-	 * @param ex a RuntimeException to translate
+	 * <p>
+	 *	如果可能的话，将持久性框架抛出的运行时异常转换为Spring通用DataAccessException层次结构中的相应异常。
+	 * </p>
+	 *
+	 * @param ex a RuntimeException to translate <br>需要转换的RuntimeException
 	 * @return the corresponding DataAccessException (or {@code null} if the
 	 * exception could not be translated, as in this case it may result from
-	 * user code rather than from an actual persistence problem)
+	 * user code rather than from an actual persistence problem)<br>
+	 *     相应的DataAccessException（如果无法翻译异常，则为null，因为在这种情况下，它可能是由于用户代码而不是实际的持久性问题引起的）
 	 * @see org.springframework.dao.DataIntegrityViolationException
 	 * @see org.springframework.jdbc.support.SQLExceptionTranslator
 	 */

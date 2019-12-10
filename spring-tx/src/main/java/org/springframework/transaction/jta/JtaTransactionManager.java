@@ -833,6 +833,10 @@ public class JtaTransactionManager extends AbstractPlatformTransactionManager
 	 * of doBegin despite an already existing transaction.
 	 * <p>JTA implementations might support nested transactions via further
 	 * {@code UserTransaction.begin()} invocations, but never support savepoints.
+	 * <p>
+	 *     尽管已有事务，该实现仍返回false，以导致进一步调用doBegin。
+	 *     JTA实现可能通过进一步的UserTransaction.begin()调用来支持嵌套事务，但是从不支持保存点。
+	 * </p>
 	 * @see #doBegin
 	 * @see javax.transaction.UserTransaction#begin()
 	 */

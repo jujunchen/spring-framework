@@ -31,6 +31,11 @@ import org.springframework.dao.support.PersistenceExceptionTranslator;
  * Spring AOP exception translation aspect for use at Repository or DAO layer level.
  * Translates native persistence exceptions into Spring's DataAccessException hierarchy,
  * based on a given PersistenceExceptionTranslator.
+ * <p>
+ *     使用在Repository 或者 DAO层的Spring AOP异常转换切面。
+ *     根据给定的PersistenceExceptionTranslator将本地持久性异常转换为Spring的DataAccessException
+ *     使用编程方式实现的AOP异常拦截
+ * </p>
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -41,15 +46,24 @@ import org.springframework.dao.support.PersistenceExceptionTranslator;
 @SuppressWarnings("serial")
 public class PersistenceExceptionTranslationAdvisor extends AbstractPointcutAdvisor {
 
+	/**
+	 * 持久层异常拦截器
+	 */
 	private final PersistenceExceptionTranslationInterceptor advice;
 
+	/**
+	 * 注解匹配器
+	 */
 	private final AnnotationMatchingPointcut pointcut;
 
 
 	/**
 	 * Create a new PersistenceExceptionTranslationAdvisor.
-	 * @param persistenceExceptionTranslator the PersistenceExceptionTranslator to use
-	 * @param repositoryAnnotationType the annotation type to check for
+	 * <p>
+	 *     创建一个新的PersistenceExceptionTranslationAdvisor
+	 * </p>
+	 * @param persistenceExceptionTranslator the PersistenceExceptionTranslator to use <br>要使用的PersistenceExceptionTranslator
+	 * @param repositoryAnnotationType the annotation type to check for <br>要检查的注解
 	 */
 	public PersistenceExceptionTranslationAdvisor(
 			PersistenceExceptionTranslator persistenceExceptionTranslator,
@@ -61,9 +75,12 @@ public class PersistenceExceptionTranslationAdvisor extends AbstractPointcutAdvi
 
 	/**
 	 * Create a new PersistenceExceptionTranslationAdvisor.
+	 * <p>
+	 *     创建一个新的 PersistenceExceptionTranslationAdvisor
+	 * </p>
 	 * @param beanFactory the ListableBeanFactory to obtaining all
-	 * PersistenceExceptionTranslators from
-	 * @param repositoryAnnotationType the annotation type to check for
+	 * PersistenceExceptionTranslators from <br>指定需要获取PersistenceExceptionTranslators的BeanFactory
+	 * @param repositoryAnnotationType the annotation type to check for<br>要检查的注解
 	 */
 	PersistenceExceptionTranslationAdvisor(
 			ListableBeanFactory beanFactory, Class<? extends Annotation> repositoryAnnotationType) {

@@ -124,6 +124,10 @@ public class TransactionProxyFactoryBean extends AbstractSingletonProxyFactoryBe
 	/**
 	 * Set the default transaction manager. This will perform actual
 	 * transaction management: This class is just a way of invoking it.
+	 *
+	 * <p>
+	 *     设置默认事务管理器。这将执行实际的事务管理：这个类只是一种调用它的方法。
+	 * </p>
 	 * @see TransactionInterceptor#setTransactionManager
 	 */
 	public void setTransactionManager(PlatformTransactionManager transactionManager) {
@@ -138,6 +142,12 @@ public class TransactionProxyFactoryBean extends AbstractSingletonProxyFactoryBe
 	 * no matter if defined in an interface or the class itself.
 	 * <p>Internally, a NameMatchTransactionAttributeSource will be
 	 * created from the given properties.
+	 * <p>
+	 *     使用方法名称作为键和事务属性描述符（通过TransactionAttributeEditor解析）将属性设置为值：<br>
+	 *     例如key =“myMethod”，value =“PROPAGATION_REQUIRED，readOnly”。<br>
+	 * 注意：无论是在接口中定义还是在类本身中定义，方法名称始终应用于目标类。<br>
+	 * 在内部，将从给定属性创建NameMatchTransactionAttributeSource。
+	 * </p>
 	 * @see #setTransactionAttributeSource
 	 * @see TransactionInterceptor#setTransactionAttributes
 	 * @see TransactionAttributeEditor
@@ -151,6 +161,10 @@ public class TransactionProxyFactoryBean extends AbstractSingletonProxyFactoryBe
 	 * Set the transaction attribute source which is used to find transaction
 	 * attributes. If specifying a String property value, a PropertyEditor
 	 * will create a MethodMapTransactionAttributeSource from the value.
+	 * <p>
+	 *     设置用于查找事务属性的事务属性源。<br>
+	 *     如果指定String属性值，PropertyEditor将从该值创建MethodMapTransactionAttributeSource。
+	 * </p>
 	 * @see #setTransactionAttributes
 	 * @see TransactionInterceptor#setTransactionAttributeSource
 	 * @see TransactionAttributeSourceEditor
@@ -166,6 +180,10 @@ public class TransactionProxyFactoryBean extends AbstractSingletonProxyFactoryBe
 	 * Set a pointcut, i.e a bean that can cause conditional invocation
 	 * of the TransactionInterceptor depending on method and attributes passed.
 	 * Note: Additional interceptors are always invoked.
+	 * <p>
+	 *     设置一个切入点，即一个bean，它可以根据传递的方法和属性导致TransactionInterceptor的条件调用。<br>
+	 *     注意：始终调用其他拦截器。
+	 * </p>
 	 * @see #setPreInterceptors
 	 * @see #setPostInterceptors
 	 */
@@ -188,6 +206,9 @@ public class TransactionProxyFactoryBean extends AbstractSingletonProxyFactoryBe
 
 	/**
 	 * Creates an advisor for this FactoryBean's TransactionInterceptor.
+	 * <p>
+	 *     为此FactoryBean的TransactionInterceptor创建一个顾问程序
+	 * </p>
 	 */
 	@Override
 	protected Object createMainInterceptor() {
@@ -204,6 +225,9 @@ public class TransactionProxyFactoryBean extends AbstractSingletonProxyFactoryBe
 	/**
 	 * As of 4.2, this method adds {@link TransactionalProxy} to the set of
 	 * proxy interfaces in order to avoid re-processing of transaction metadata.
+	 * <p>
+	 *     从4.2开始，此方法将TransactionalProxy添加到代理接口集，以避免重新处理事务元数据。
+	 * </p>
 	 */
 	@Override
 	protected void postProcessProxyFactory(ProxyFactory proxyFactory) {

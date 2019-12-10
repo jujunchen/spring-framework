@@ -28,6 +28,11 @@ import org.springframework.transaction.TransactionStatus;
  * but a useful option to enhance testability, as it can easily be
  * mocked or stubbed.
  *
+ * <p>
+ *     指定基本事务执行操作的接口。
+ *     由TransactionTemplate实现。它不经常直接使用，而是增强可测试性的有用选项，因为它很容易被嘲笑或存根。
+ * </p>
+ *
  * @author Juergen Hoeller
  * @since 2.0.4
  */
@@ -39,9 +44,15 @@ public interface TransactionOperations {
 	 * a domain object or a collection of domain objects. A RuntimeException thrown
 	 * by the callback is treated as a fatal exception that enforces a rollback.
 	 * Such an exception gets propagated to the caller of the template.
-	 * @param action the callback object that specifies the transactional action
-	 * @return a result object returned by the callback, or {@code null} if none
+	 * <p>
+	 *     执行事务中给定的回调对象指定的操作
+	 * <p>
+	 *     允许返回在事务内创建的结果对象，即对象域或者对象域的集合。
+	 *     回调引发的RuntimeException异常会导致回滚，并传播给模版的调用者
+	 * @param action the callback object that specifies the transactional action <br>指定事务操作的回调对象
+	 * @return a result object returned by the callback, or {@code null} if none<br>回调返回的结果对象，或者 null
 	 * @throws TransactionException in case of initialization, rollback, or system errors
+		<br>如果发生初始化、回滚系统错误，抛出TransactionException
 	 * @throws RuntimeException if thrown by the TransactionCallback
 	 * @see #executeWithoutResult(Consumer)
 	 */

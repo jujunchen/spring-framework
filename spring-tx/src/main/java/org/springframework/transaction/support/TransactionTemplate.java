@@ -55,6 +55,18 @@ import org.springframework.util.Assert;
  * <p>Supports setting the propagation behavior and the isolation level by name,
  * for convenient configuration in context definitions.
  *
+ *
+ * <p>
+ *     简化程序化事务界定和事务异常处理的模板类。
+ * 中心方法是execute，支持实现TransactionCallback接口的事务代码。
+ * 这个模板处理事务生命周期和可能的异常，例如TransactionCallback实现和调用代码都不需要显式地处理事务。
+ * 典型用法:允许编写底层数据访问对象，这些对象使用JDBC数据源等资源，但它们本身不支持事务。
+ * 相反，它们可以隐式地参与高级应用程序服务利用这个类处理的事务，通过内部类回调对象调用低级服务。
+ * 可以通过直接实例化事务管理器引用在服务实现中使用，也可以在应用程序上下文中准备并作为bean引用传递给服务。
+ * 注意:事务管理器应该始终在应用程序上下文中配置为bean:在第一种情况下直接配置为服务，在第二种情况下配置为准备好的模板。
+ * 支持通过名称设置传播行为和隔离级别，以便在上下文定义中进行方便的配置。
+ * </p>
+ *
  * @author Juergen Hoeller
  * @since 17.03.2003
  * @see #execute
@@ -76,6 +88,10 @@ public class TransactionTemplate extends DefaultTransactionDefinition
 	 * Construct a new TransactionTemplate for bean usage.
 	 * <p>Note: The PlatformTransactionManager needs to be set before
 	 * any {@code execute} calls.
+	 * <p>
+	 *     构造新事务模版供bean使用
+	 * <p>
+	 *     注意：需要在任何的 execute调用之前，设置PlatformTransactionManager
 	 * @see #setTransactionManager
 	 */
 	public TransactionTemplate() {
@@ -83,7 +99,10 @@ public class TransactionTemplate extends DefaultTransactionDefinition
 
 	/**
 	 * Construct a new TransactionTemplate using the given transaction manager.
-	 * @param transactionManager the transaction management strategy to be used
+	 * <p>
+	 *     根据指定的事务管理器构造新的事务模版
+	 * </p>
+	 * @param transactionManager the transaction management strategy to be used<br>指定的事务管理器
 	 */
 	public TransactionTemplate(PlatformTransactionManager transactionManager) {
 		this.transactionManager = transactionManager;
@@ -92,9 +111,13 @@ public class TransactionTemplate extends DefaultTransactionDefinition
 	/**
 	 * Construct a new TransactionTemplate using the given transaction manager,
 	 * taking its default settings from the given transaction definition.
-	 * @param transactionManager the transaction management strategy to be used
+	 * <p>
+	 *     通过指定的事务管理器构造新的事务模版，使用指定的事务定义设置默认值
+	 * </p>
+	 * @param transactionManager the transaction management strategy to be used <br>指定的事务管理器
 	 * @param transactionDefinition the transaction definition to copy the
-	 * default settings from. Local properties can still be set to change values.
+	 * default settings from. Local properties can still be set to change values.<br>
+	 *                              设置默认的事务定义
 	 */
 	public TransactionTemplate(PlatformTransactionManager transactionManager, TransactionDefinition transactionDefinition) {
 		super(transactionDefinition);
@@ -104,6 +127,7 @@ public class TransactionTemplate extends DefaultTransactionDefinition
 
 	/**
 	 * Set the transaction management strategy to be used.
+	 * <p>设置事务管理器</p>
 	 */
 	public void setTransactionManager(@Nullable PlatformTransactionManager transactionManager) {
 		this.transactionManager = transactionManager;
@@ -111,6 +135,7 @@ public class TransactionTemplate extends DefaultTransactionDefinition
 
 	/**
 	 * Return the transaction management strategy to be used.
+	 * <p>返回使用的事务管理器</p>
 	 */
 	@Nullable
 	public PlatformTransactionManager getTransactionManager() {

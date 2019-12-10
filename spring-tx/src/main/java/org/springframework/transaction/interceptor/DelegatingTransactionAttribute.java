@@ -27,6 +27,10 @@ import org.springframework.transaction.support.DelegatingTransactionDefinition;
  * with subclasses overriding specific methods that are not supposed to simply delegate
  * to the target instance.
  *
+ * <p>
+ *     {@link TransactionAttribute}的委托类
+ * </p>
+ *
  * @author Juergen Hoeller
  * @since 1.2
  */
@@ -39,7 +43,10 @@ public abstract class DelegatingTransactionAttribute extends DelegatingTransacti
 
 	/**
 	 * Create a DelegatingTransactionAttribute for the given target attribute.
-	 * @param targetAttribute the target TransactionAttribute to delegate to
+	 * <p>
+	 *     使用给定的TransactionAttribute创建一个DelegatingTransactionAttribute
+	 * </p>
+	 * @param targetAttribute the target TransactionAttribute to delegate to <br>需要委托的TransactionAttribute
 	 */
 	public DelegatingTransactionAttribute(TransactionAttribute targetAttribute) {
 		super(targetAttribute);

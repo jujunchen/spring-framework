@@ -29,6 +29,14 @@ import java.io.Flushable;
  * to savepoint management facilities. Note that savepoint management
  * is only available if supported by the underlying transaction manager.
  *
+ * <p>
+ *     表示事务状态。
+ * <p>
+ *     可以使用它来检查事务状态信息，并用编程方式回滚，而不是通过异常的方式隐式回滚
+ * <p>
+ *     继承了SavepontManager，以提供对保存点管理器的访问。只有在基础事务管理器支持的情况下，
+ *     保存管理点才可用
+ *
  * @author Juergen Hoeller
  * @since 27.03.2003
  * @see #setRollbackOnly()
@@ -44,6 +52,12 @@ public interface TransactionStatus extends TransactionExecution, SavepointManage
 	 * <p>This method is mainly here for diagnostic purposes, alongside
 	 * {@link #isNewTransaction()}. For programmatic handling of custom
 	 * savepoints, use the operations provided by {@link SavepointManager}.
+	 * <p>
+	 *     返回事务是否有保存点，即已基于保存点创建了嵌套事务。
+	 * <p>
+	 *     此方法主要用于诊断目的，与{@link #isNewTransaction()}一起使用。
+	 *     对于编程式处理保存点，请使用SavepointManager操作
+	 * @return
 	 * @see #isNewTransaction()
 	 * @see #createSavepoint()
 	 * @see #rollbackToSavepoint(Object)
@@ -58,6 +72,11 @@ public interface TransactionStatus extends TransactionExecution, SavepointManage
 	 * transaction manager does not have a flush concept. A flush signal may
 	 * get applied to the primary resource or to transaction synchronizations,
 	 * depending on the underlying resource.
+	 * <p>
+	 *     如果可以，将基础会话刷新到数据存储区，例如Hibernate/JPA sessions
+	 * <p>
+	 *     实际上这只是提供了一个信号，如果事务管理器没有刷新功能，则可能不做任何事情。
+	 *     刷新信号可能会应用于主要资源或者事务同步。
 	 */
 	@Override
 	void flush();

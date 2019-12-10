@@ -35,6 +35,12 @@ import org.springframework.transaction.TransactionException;
  * {@link org.springframework.transaction.interceptor.TransactionInterceptor}
  * detect and use this PlatformTransactionManager variant automatically.
  *
+ * <p>
+ *     {@link org.springframework.transaction.PlatformTransactionManager}的扩展，可以在事务内进行回调
+ * <p>
+ *     该接口实现者通过回调来实现事务，而不是通过编程式的getTransaction、commit、rollback调用
+ *
+ *
  * @author Juergen Hoeller
  * @since 2.0
  * @see TransactionTemplate
@@ -48,8 +54,13 @@ public interface CallbackPreferringPlatformTransactionManager extends PlatformTr
 	 * a domain object or a collection of domain objects. A RuntimeException thrown
 	 * by the callback is treated as a fatal exception that enforces a rollback.
 	 * Such an exception gets propagated to the caller of the template.
-	 * @param definition the definition for the transaction to wrap the callback in
-	 * @param callback the callback object that specifies the transactional action
+	 *
+	 * <p>
+	 *     执行事务中给定的回调对象指定的操作。
+	 * 允许返回在事务内创建的结果对象，即域对象或域对象的集合。回调引发的RuntimeException被视为执行回滚的致命异常。这样的异常会传播到模板的调用者。
+	 * </p>
+	 * @param definition the definition for the transaction to wrap the callback in<br>用于包装回调的事务定义
+	 * @param callback the callback object that specifies the transactional action<br> 指定事务操作的回调对象
 	 * @return a result object returned by the callback, or {@code null} if none
 	 * @throws TransactionException in case of initialization, rollback, or system errors
 	 * @throws RuntimeException if thrown by the TransactionCallback

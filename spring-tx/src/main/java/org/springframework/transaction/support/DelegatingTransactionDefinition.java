@@ -28,6 +28,10 @@ import org.springframework.util.Assert;
  * with subclasses overriding specific methods that are not supposed to simply delegate
  * to the target instance.
  *
+ * <p>
+ *     {@link TransactionDefinition} 的实现，将所有调用委托给{@link TransactionDefinition}实例
+ * </p>
+ *
  * @author Juergen Hoeller
  * @since 3.0
  */

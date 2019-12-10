@@ -56,6 +56,9 @@ public interface TransactionAttributeSource {
 	/**
 	 * Return the transaction attribute for the given method,
 	 * or {@code null} if the method is non-transactional.
+	 * <p>
+	 *     返回给定方法的事务属性，如果这个方法时非事务的就返回 null
+	 * </p>
 	 * @param method the method to introspect
 	 * @param targetClass the target class (may be {@code null},
 	 * in which case the declaring class of the method must be used)

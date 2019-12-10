@@ -28,6 +28,10 @@ import org.springframework.transaction.TransactionStatus;
  * alternative, consider the use of declarative transaction demarcation (e.g. through
  * Spring's {@link org.springframework.transaction.annotation.Transactional} annotation).
  *
+ * <p>
+ *     事务代码的回调接口。用于{@link TransactionTemplate} execute方法中的匿名类
+ * </p>
+ *
  * @author Juergen Hoeller
  * @since 17.03.2003
  * @see TransactionTemplate
@@ -47,8 +51,15 @@ public interface TransactionCallback<T> {
 	 * callback is treated as application exception that enforces a rollback. Any such
 	 * exception will be propagated to the caller of the template, unless there is a
 	 * problem rolling back, in which case a TransactionException will be thrown.
-	 * @param status associated transaction status
-	 * @return a result object, or {@code null}
+	 *
+	 * <p>
+	 *     在事务上下文中由{@link TransactionTemplate#execute(TransactionCallback)}调用。
+	 *		不需要关心事务本身，可以通过给定的事务状态影响当前事务状态，比如设置 只能回滚
+	 * <p>
+	 *     允许返回事务内创建的结果。即对象域或者对象域集合，回调引发的RunTimeException被当着强制执行回滚的应用程序异常。
+	 *     除非存在回滚问题，否则任何异常都将传播到调用者，抛出TransactionException
+	 * @param status associated transaction status <br>指定的事务状态
+	 * @return a result object, or {@code null} <br>返回的结果，或者 null
 	 * @see TransactionTemplate#execute
 	 * @see CallbackPreferringPlatformTransactionManager#execute
 	 */

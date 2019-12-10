@@ -30,6 +30,9 @@ import org.springframework.transaction.TransactionDefinition;
  * <p>Base class for both {@link TransactionTemplate} and
  * {@link org.springframework.transaction.interceptor.DefaultTransactionAttribute}.
  *
+ * <p>
+ *     {@link TransactionDefinition} 接口的默认实现，(PROPAGATION_REQUIRED, ISOLATION_DEFAULT, TIMEOUT_DEFAULT, readOnly=false)
+ *
  * @author Juergen Hoeller
  * @since 08.05.2003
  */
@@ -49,7 +52,10 @@ public class DefaultTransactionDefinition implements TransactionDefinition, Seri
 	public static final String READ_ONLY_MARKER = "readOnly";
 
 
-	/** Constants instance for TransactionDefinition. */
+	/** Constants instance for TransactionDefinition */
+	/**
+	 * TransactionDefinition常量实例
+	 */
 	static final Constants constants = new Constants(TransactionDefinition.class);
 
 	private int propagationBehavior = PROPAGATION_REQUIRED;

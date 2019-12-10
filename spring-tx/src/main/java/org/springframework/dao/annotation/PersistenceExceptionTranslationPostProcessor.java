@@ -47,6 +47,15 @@ import org.springframework.util.Assert;
  * with the {@code @Repository} annotation, along with defining this post-processor
  * as a bean in the application context.
  *
+ * <p>
+ *     Bean后置处理器，该处理器自动将持久性异常转换应用于任何带有 @{@link org.springframework.stereotype.Repository Repository}
+ *     注解的Bean, 并向公开的代理(现有的AOP代理 或者 任何新生成的实现了接口的代理)添加{@link PersistenceExceptionTranslationAdvisor}
+ * <p>
+ *     将本地资源异常转换为Spring的{@link org.springframework.dao.DataAccessException DataAccessException}的结构，能够自动检测实现了
+ *     {@code PersistenceExceptionTranslator}接口的Bean.
+ * <p>
+ *     Spring所有的持久化资源工厂均实现了{@code PersistenceExceptionTranslator}接口。因此，启用自动异常转换通常所需要做的就是用@Repository批注标记所有受影响的bean（例如Repository或DAO），并将此后处理器定义为应用程序上下文中的bean。
+ * </p>
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 2.0
@@ -67,6 +76,10 @@ public class PersistenceExceptionTranslationPostProcessor extends AbstractBeanFa
 	 * <p>This setter property exists so that developers can provide their own
 	 * (non-Spring-specific) annotation type to indicate that a class has a
 	 * repository role.
+	 * <p>
+	 *     设置 'repository'注解类型，默认为 {@link Repository}
+	 * <p>
+	 *     开发者可以自定义注解类型
 	 * @param repositoryAnnotationType the desired annotation type
 	 */
 	public void setRepositoryAnnotationType(Class<? extends Annotation> repositoryAnnotationType) {

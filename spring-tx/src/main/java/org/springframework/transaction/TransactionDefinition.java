@@ -35,6 +35,17 @@ import org.springframework.lang.Nullable;
  * at the resource level. In the latter case, the flag will only apply to managed
  * resources within the application, such as a Hibernate {@code Session}.
  *
+ * <p>
+ *     与Spring兼容的事务属性接口。类似EJB CMT属性
+ * <p>
+ *     注意：除非开启新事务，否则不会应用隔离级别和超时设置。只有 {@link #PROPAGATION_REQUIRED},
+ *   {@link #PROPAGATION_REQUIRES_NEW} 和 {@link #PROPAGATION_NESTED} 能开启新事务，因此在其他情况下设置是没有意义的。
+ *   此外，并非所有的事务管理器都支持这种高级功能，在没有默认值时会引发异常
+ * <p>
+ *     {@link #isReadOnly()} 只读标志适用于任何事务上下文，不管实际事务，还是非事务方式。非事务方式，仅适用于由应用托管的资源，
+ *     比如Hibernate {@code Session}
+ *
+ *
  * @author Juergen Hoeller
  * @since 08.05.2003
  * @see PlatformTransactionManager#getTransaction(TransactionDefinition)
@@ -48,6 +59,9 @@ public interface TransactionDefinition {
 	 * Analogous to the EJB transaction attribute of the same name.
 	 * <p>This is typically the default setting of a transaction definition,
 	 * and typically defines a transaction synchronization scope.
+	 * <p>
+	 *     如果当前没有事务，则新建一个事务；如果已经存在一个事务，则加入到这个事务中
+	 * </p>
 	 */
 	int PROPAGATION_REQUIRED = 0;
 
@@ -67,6 +81,9 @@ public interface TransactionDefinition {
 	 * synchronization conflicts at runtime). If such nesting is unavoidable, make sure
 	 * to configure your transaction manager appropriately (typically switching to
 	 * "synchronization on actual transaction").
+	 * <p>
+	 *     使用当前事务，如果没有事务，则以非事务方式执行
+	 * </p>
 	 * @see org.springframework.transaction.support.AbstractPlatformTransactionManager#setTransactionSynchronization
 	 * @see org.springframework.transaction.support.AbstractPlatformTransactionManager#SYNCHRONIZATION_ON_ACTUAL_TRANSACTION
 	 */
@@ -77,6 +94,9 @@ public interface TransactionDefinition {
 	 * exists. Analogous to the EJB transaction attribute of the same name.
 	 * <p>Note that transaction synchronization within a {@code PROPAGATION_MANDATORY}
 	 * scope will always be driven by the surrounding transaction.
+	 * <p>
+	 *     如果当前有事物存在，就使用当前事务。当前没有事务，就抛错
+	 * </p>
 	 */
 	int PROPAGATION_MANDATORY = 2;
 
@@ -91,6 +111,9 @@ public interface TransactionDefinition {
 	 * <p>A {@code PROPAGATION_REQUIRES_NEW} scope always defines its own
 	 * transaction synchronizations. Existing synchronizations will be suspended
 	 * and resumed appropriately.
+	 * <p>
+	 *     开启新事务，如果当前存在事务，则挂起当前事务
+	 * </p>
 	 * @see org.springframework.transaction.jta.JtaTransactionManager#setTransactionManager
 	 */
 	int PROPAGATION_REQUIRES_NEW = 3;
@@ -106,6 +129,9 @@ public interface TransactionDefinition {
 	 * <p>Note that transaction synchronization is <i>not</i> available within a
 	 * {@code PROPAGATION_NOT_SUPPORTED} scope. Existing synchronizations
 	 * will be suspended and resumed appropriately.
+	 * <p>
+	 *     以非事务方式执行，如果当前存在事务，则把当前事务挂起
+	 * </p>
 	 * @see org.springframework.transaction.jta.JtaTransactionManager#setTransactionManager
 	 */
 	int PROPAGATION_NOT_SUPPORTED = 4;
@@ -115,6 +141,9 @@ public interface TransactionDefinition {
 	 * exists. Analogous to the EJB transaction attribute of the same name.
 	 * <p>Note that transaction synchronization is <i>not</i> available within a
 	 * {@code PROPAGATION_NEVER} scope.
+	 * <p>
+	 *     以非事务方式执行，如果当前存在事务则抛错
+	 * </p>
 	 */
 	int PROPAGATION_NEVER = 5;
 
@@ -127,6 +156,9 @@ public interface TransactionDefinition {
 	 * {@link org.springframework.jdbc.datasource.DataSourceTransactionManager}
 	 * when working on a JDBC 3.0 driver. Some JTA providers might support
 	 * nested transactions as well.
+	 * <p>
+	 *     如果当前存在事务，则在嵌套事务中执行。如果没有事务，就执行与{@link #PROPAGATION_REQUIRED}类似的操作
+	 * </p>
 	 * @see org.springframework.jdbc.datasource.DataSourceTransactionManager
 	 */
 	int PROPAGATION_NESTED = 6;
@@ -135,6 +167,7 @@ public interface TransactionDefinition {
 	/**
 	 * Use the default isolation level of the underlying datastore.
 	 * All other levels correspond to the JDBC isolation levels.
+	 * <p>默认隔离级别。隔离级别对应JDBC的隔离级别</p>
 	 * @see java.sql.Connection
 	 */
 	int ISOLATION_DEFAULT = -1;
@@ -187,6 +220,9 @@ public interface TransactionDefinition {
 	/**
 	 * Use the default timeout of the underlying transaction system,
 	 * or none if timeouts are not supported.
+	 * <p>
+	 *     事务默认超时时间，如果不支持就不使用默认超时
+	 * </p>
 	 */
 	int TIMEOUT_DEFAULT = -1;
 
@@ -195,8 +231,11 @@ public interface TransactionDefinition {
 	 * Return the propagation behavior.
 	 * <p>Must return one of the {@code PROPAGATION_XXX} constants
 	 * defined on {@link TransactionDefinition this interface}.
-	 * <p>The default is {@link #PROPAGATION_REQUIRED}.
-	 * @return the propagation behavior
+	 * <p>
+	 *     返回事务传播方式
+	 * <p>
+	 *     必须返回{@link TransactionDefinition}接口中定义的{@code PROPAGATION_XXX}中的其中一个
+	 * @return the propagation behavior <br>返回事务传播方式
 	 * @see #PROPAGATION_REQUIRED
 	 * @see org.springframework.transaction.support.TransactionSynchronizationManager#isActualTransactionActive()
 	 */
@@ -218,6 +257,14 @@ public interface TransactionDefinition {
 	 * <p>The default is {@link #ISOLATION_DEFAULT}. Note that a transaction manager
 	 * that does not support custom isolation levels will throw an exception when
 	 * given any other level than {@link #ISOLATION_DEFAULT}.
+	 * <p>
+	 *     返回事务隔离级别。
+	 * <p>
+	 *     必须返回在{@link TransactionDefinition}接口中定义的{@code ISOLATION_XXX}中的一个。
+	 * <p>
+	 *     只有与{@link #PROPAGATION_REQUIRED}或者{@link #PROPAGATION_REQUIRES_NEW}结合才有意义。
+	 * <p>
+	 *     注意：如果事务管理器不支持隔离级别，那么只有设置{@link #ISOLATION_DEFAULT}，其他隔离级别都将抛出异常。
 	 * @return the isolation level
 	 * @see #ISOLATION_DEFAULT
 	 * @see org.springframework.transaction.support.AbstractPlatformTransactionManager#setValidateExistingTransaction
@@ -235,6 +282,14 @@ public interface TransactionDefinition {
 	 * <p>Note that a transaction manager that does not support timeouts will throw
 	 * an exception when given any other timeout than {@link #TIMEOUT_DEFAULT}.
 	 * <p>The default is {@link #TIMEOUT_DEFAULT}.
+	 * <p>
+	 *     返回事务超时时间。
+	 * <p>
+	 *     必须返回几秒钟，或者使用{@link #TIMEOUT_DEFAULT}
+	 * <p>
+	 *     仅仅与{@link #PROPAGATION_REQUIRED} 或者 {@link #PROPAGATION_REQUIRES_NEW} 结合才有意义。
+	 * <p>
+	 *     注意：如果事务管理器不支持超时，在设置为除{@link #TIMEOUT_DEFAULT}以外的时间时，将抛出异常
 	 * @return the transaction timeout
 	 */
 	default int getTimeout() {
@@ -253,8 +308,12 @@ public interface TransactionDefinition {
 	 * it will <i>not necessarily</i> cause failure of write access attempts.
 	 * A transaction manager which cannot interpret the read-only hint will
 	 * <i>not</i> throw an exception when asked for a read-only transaction.
+	 * <p>
+	 *     返回事务是否为只读。
+	 * <p>
+	 *     只读标志适用于任何事务上下文。
 	 * @return {@code true} if the transaction is to be optimized as read-only
-	 * ({@code false} by default)
+	 * ({@code false} by default)<br>如果为只读，返回true，默认为false
 	 * @see org.springframework.transaction.support.TransactionSynchronization#beforeCommit(boolean)
 	 * @see org.springframework.transaction.support.TransactionSynchronizationManager#isCurrentTransactionReadOnly()
 	 */
@@ -268,6 +327,10 @@ public interface TransactionDefinition {
 	 * transaction monitor, if applicable (for example, WebLogic's).
 	 * <p>In case of Spring's declarative transactions, the exposed name will be
 	 * the {@code fully-qualified class name + "." + method name} (by default).
+	 * <p>
+	 *     返回这个事务的名称，可以为null，用做事务监视器的名称。
+	 * <p>
+	 *     默认情况下，Spring声明式事务，公开的名称为全限定名
 	 * @return the name of this transaction ({@code null} by default}
 	 * @see org.springframework.transaction.interceptor.TransactionAspectSupport
 	 * @see org.springframework.transaction.support.TransactionSynchronizationManager#getCurrentTransactionName()

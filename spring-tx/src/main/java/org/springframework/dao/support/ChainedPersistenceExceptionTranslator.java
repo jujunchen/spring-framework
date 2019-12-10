@@ -28,6 +28,10 @@ import org.springframework.util.Assert;
  * allowing the addition of PersistenceExceptionTranslator instances in order.
  * Returns {@code non-null} on the first (if any) match.
  *
+ * <p>
+ *     有顺序的{@link PersistenceExceptionTranslator}
+ * </p>
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 2.0
@@ -40,6 +44,9 @@ public class ChainedPersistenceExceptionTranslator implements PersistenceExcepti
 
 	/**
 	 * Add a PersistenceExceptionTranslator to the chained delegate list.
+	 * <p>
+	 *     将{@link PersistenceExceptionTranslator} 放入委托的list中
+	 * </p>
 	 */
 	public final void addDelegate(PersistenceExceptionTranslator pet) {
 		Assert.notNull(pet, "PersistenceExceptionTranslator must not be null");
@@ -48,6 +55,9 @@ public class ChainedPersistenceExceptionTranslator implements PersistenceExcepti
 
 	/**
 	 * Return all registered PersistenceExceptionTranslator delegates (as array).
+	 * <p>
+	 *     以数组形式返回所有已经注册的PersistenceExceptionTranslator
+	 * </p>
 	 */
 	public final PersistenceExceptionTranslator[] getDelegates() {
 		return this.delegates.toArray(new PersistenceExceptionTranslator[0]);
