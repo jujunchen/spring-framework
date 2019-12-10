@@ -27,6 +27,10 @@ import org.springframework.util.ClassUtils;
  * setup in a bean factory. This class provides a simple way of obtaining
  * and configuring AOP proxy instances in custom user code.
  *
+ * <p>
+ *     AOP代理工程类，这个类提供简单的方法来获取和配置代码中的AOP代理实例
+ * </p>
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @author Rob Harrop
@@ -102,6 +106,15 @@ public class ProxyFactory extends ProxyCreatorSupport {
 	 * <p>Can be called repeatedly. Effect will vary if we've added
 	 * or removed interfaces. Can add and remove interceptors.
 	 * <p>Uses the given class loader (if necessary for proxy creation).
+	 *
+	 * <p>
+	 *     根据此工厂中的设置创建新代理
+	 * </p>
+	 * <p>
+	 *     能反复调用。如果添加或删除了接口，则代理也会有影响。
+	 * 可以添加、删除拦截器。<br>
+	 *     使用给定的类加载器（如果需要创建代理）。
+	 * </p>
 	 * @param classLoader the class loader to create the proxy with
 	 * (or {@code null} for the low-level proxy facility's default)
 	 * @return the proxy object

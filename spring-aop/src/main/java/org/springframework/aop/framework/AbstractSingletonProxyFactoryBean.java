@@ -94,6 +94,9 @@ public abstract class AbstractSingletonProxyFactoryBean extends ProxyConfig
 	 * implicit transaction interceptor, e.g. a PerformanceMonitorInterceptor.
 	 * <p>You may specify any AOP Alliance MethodInterceptors or other
 	 * Spring AOP Advices, as well as Spring AOP Advisors.
+	 * <p>
+	 * 设置要在隐式事务拦截器之前应用的其他拦截器（或顾问程序），例如，一个PerformanceMonitorInterceptor。<br>
+	 * 您可以指定任何AOP Alliance MethodInterceptors或其他Spring AOP建议，以及Spring AOP Advisors。
 	 * @see org.springframework.aop.interceptor.PerformanceMonitorInterceptor
 	 */
 	public void setPreInterceptors(Object[] preInterceptors) {
@@ -176,7 +179,7 @@ public abstract class AbstractSingletonProxyFactoryBean extends ProxyConfig
 		}
 		else if (!isProxyTargetClass()) {
 			// Rely on AOP infrastructure to tell us what interfaces to proxy.
-			Class<?> targetClass = targetSource.getTargetClass();
+			//需要根据AOP基础设置来确定使用哪个接口作为代理
 			if (targetClass != null) {
 				proxyFactory.setInterfaces(ClassUtils.getAllInterfacesForClass(targetClass, this.proxyClassLoader));
 			}

@@ -46,6 +46,8 @@ public interface Advisor {
 	/**
 	 * Return the advice part of this aspect. An advice may be an
 	 * interceptor, a before advice, a throws advice, etc.
+	 * <p>
+	 *     返回切面通知，一个通知可以是interceptor, beforeadvice, throws advice 等
 	 * @return the advice that should apply if the pointcut matches
 	 * @see org.aopalliance.intercept.MethodInterceptor
 	 * @see BeforeAdvice
@@ -62,6 +64,12 @@ public interface Advisor {
 	 * Typical Advisor implementations always return {@code true}.
 	 * Use singleton/prototype bean definitions or appropriate programmatic
 	 * proxy creation to ensure that Advisors have the correct lifecycle model.
+	 * <p>
+	 *     返回此建议是否与特定实例相关联（例如，创建mixin）或与从同一Spring bean工厂获取的建议类的所有实例共享。
+	 *
+	 * 请注意，框架当前不使用此方法。典型的Advisor实现始终返回true。使用singleton / prototype bean定义或适当的编程代理创建来确保Advisor具有正确的生命周期模型。
+	 * </p>
+	 *
 	 * @return whether this advice is associated with a particular target instance
 	 */
 	boolean isPerInstance();

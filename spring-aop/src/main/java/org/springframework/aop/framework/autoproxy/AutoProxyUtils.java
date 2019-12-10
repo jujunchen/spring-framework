@@ -49,6 +49,9 @@ public abstract class AutoProxyUtils {
 	 * Bean definition attribute that indicates the original target class of an
 	 * auto-proxied bean, e.g. to be used for the introspection of annotations
 	 * on the target class behind an interface-based proxy.
+	 * <p>
+	 *     Bean定义属性，表示自动代理bean的原始类
+	 * </p>
 	 * @since 4.2.3
 	 * @see #determineTargetClass
 	 */
@@ -103,6 +106,9 @@ public abstract class AutoProxyUtils {
 
 	/**
 	 * Expose the given target class for the specified bean, if possible.
+	 * <p>
+	 *     暴露指定的bean
+	 * </p>
 	 * @param beanFactory the containing ConfigurableListableBeanFactory
 	 * @param beanName the name of the bean
 	 * @param targetClass the corresponding target class

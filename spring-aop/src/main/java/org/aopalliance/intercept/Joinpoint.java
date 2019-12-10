@@ -59,6 +59,9 @@ public interface Joinpoint {
 	 * Return the static part of this joinpoint.
 	 * <p>The static part is an accessible object on which a chain of
 	 * interceptors are installed.
+	 * <p>
+	 *     返回保存当前联接点的静态部分的对象。例如，调用的目标对象。
+	 * </p>
 	 */
 	AccessibleObject getStaticPart();
 

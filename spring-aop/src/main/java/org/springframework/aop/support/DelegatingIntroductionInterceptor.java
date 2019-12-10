@@ -43,6 +43,15 @@ import org.springframework.util.Assert;
  *
  * <p>An instance of this class is serializable if the delegate is.
  *
+ * <p>{@link org.springframework.aop.IntroductionInterceptor} 接口的实现
+ * 子类只需要扩展该类并实现要引入的接口。在本例中，委托是子类实例本身。另外，一个单独的委托可以实现接口，并通过委托bean属性进行设置。
+ *
+ * <p>委托或子类可以实现任意数量的接口。默认情况下，除了导入拦截器之外的所有接口都从子类或委托中获取。
+ *
+ * <p>{@code suppressInterface}方法可以用来抑制由委托实现的接口，但是不应该将其引入到拥有AOP代理中。
+ *
+ * <p>如果委托是可序列化的，则该类的实例也是可序列化的。
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 16.11.2003

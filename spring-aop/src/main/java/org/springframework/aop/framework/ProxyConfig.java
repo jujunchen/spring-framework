@@ -24,6 +24,10 @@ import org.springframework.util.Assert;
  * Convenience superclass for configuration used in creating proxies,
  * to ensure that all proxy creators have consistent properties.
  *
+ * <p>
+ *     创建代理配置类的顶级父类
+ * </p>
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @see AdvisedSupport
@@ -55,6 +59,16 @@ public class ProxyConfig implements Serializable {
 	 * <p>Note: Depending on the configuration of the concrete proxy factory,
 	 * the proxy-target-class behavior will also be applied if no interfaces
 	 * have been specified (and no interface autodetection is activated).
+	 *
+	 * <p>
+	 *     设置是否直接代理目标类，而不只是代理特定的接口。
+	 *     默认设置是“假”。
+	 * 将其设置为“true”，以强制对TargetSource的公开目标类进行代理。如果目标类是接口，则将为给定接口创建JDK代理。
+	 * 如果目标类是任何其他类，那么将为给定的类创建一个CGLIB代理。
+	 * </p>
+	 * <p>
+	 * 注意:根据具体代理工厂的配置，如果没有指定接口(也没有激活接口自动检测)，还将应用代理目标类行为。
+	 * </p>
 	 * @see org.springframework.aop.TargetSource#getTargetClass()
 	 */
 	public void setProxyTargetClass(boolean proxyTargetClass) {
@@ -63,6 +77,9 @@ public class ProxyConfig implements Serializable {
 
 	/**
 	 * Return whether to proxy the target class directly as well as any interfaces.
+	 * <p>
+	 *     返回是否直接代理目标类以及接口
+	 * </p>
 	 */
 	public boolean isProxyTargetClass() {
 		return this.proxyTargetClass;
@@ -85,6 +102,7 @@ public class ProxyConfig implements Serializable {
 
 	/**
 	 * Return whether proxies should perform aggressive optimizations.
+	 * <p>返回代理是否应执行积极的优化。</p>
 	 */
 	public boolean isOptimize() {
 		return this.optimize;
@@ -134,6 +152,11 @@ public class ProxyConfig implements Serializable {
 	 * <p>When a config is frozen, no advice changes can be made. This is
 	 * useful for optimization, and useful when we don't want callers to
 	 * be able to manipulate configuration after casting to Advised.
+	 *
+	 * <p>
+	 *     设置是否禁用配置修改
+	 * </p>
+	 * <p>当禁用时，不能对通知进行修改。这对于优化很有用，当我们不希望调用者在转换为Advised之后能够操作配置时非常有用。</p>
 	 */
 	public void setFrozen(boolean frozen) {
 		this.frozen = frozen;

@@ -98,6 +98,12 @@ public class ProxyProcessorSupport extends ProxyConfig implements Ordered, BeanC
 	 * if appropriate.
 	 * <p>Calls {@link #isConfigurationCallbackInterface} and {@link #isInternalLanguageInterface}
 	 * to filter for reasonable proxy interfaces, falling back to a target-class proxy otherwise.
+	 *
+	 * <p>
+	 *     检查给定bean类的接口，并将其应用于ProxyFactory（如果适用）。
+	 * 调用isConfigurationCallbackInterface和isInternalLanguageInterface来过滤合理的代理接口，否则回退到目标类代理。
+	 * </p>
+	 *
 	 * @param beanClass the class of the bean
 	 * @param proxyFactory the ProxyFactory for the bean
 	 */
@@ -127,6 +133,11 @@ public class ProxyProcessorSupport extends ProxyConfig implements Ordered, BeanC
 	 * therefore not to be considered as a reasonable proxy interface.
 	 * <p>If no reasonable proxy interface is found for a given bean, it will get
 	 * proxied with its full target class, assuming that as the user's intention.
+	 *
+	 * <p>
+	 *  确定给定接口是否只是容器回调，如果是不被视为合理的代理接口。
+	 * 	如果没有找到给定bean的合理代理接口，它将获得其完整目标类的代理，假设作为用户的意图。
+	 * </p>
 	 * @param ifc the interface to check
 	 * @return whether the given interface is just a container callback
 	 */
@@ -140,6 +151,12 @@ public class ProxyProcessorSupport extends ProxyConfig implements Ordered, BeanC
 	 * and therefore not to be considered as a reasonable proxy interface.
 	 * <p>If no reasonable proxy interface is found for a given bean, it will get
 	 * proxied with its full target class, assuming that as the user's intention.
+	 *
+	 * <p>
+	 *     确定给定接口是否是内部语言接口，如果是因此不被视为合理的代理接口。
+	 * 如果没有找到给定bean的合理代理接口，它将获得其完整目标类的代理，假设作为用户的意图。
+	 * </p>
+	 *
 	 * @param ifc the interface to check
 	 * @return whether the given interface is an internal language interface
 	 */
