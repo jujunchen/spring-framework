@@ -132,6 +132,10 @@ public class SimpleUrlHandlerMapping extends AbstractUrlHandlerMapping {
 	/**
 	 * Calls the {@link #registerHandlers} method in addition to the
 	 * superclass's initialization.
+	 *
+	 * <p>
+	 *     除了超类的初始化之外，还调用registerHandlers方法。
+	 * </p>
 	 */
 	@Override
 	public void initApplicationContext() throws BeansException {
@@ -141,7 +145,10 @@ public class SimpleUrlHandlerMapping extends AbstractUrlHandlerMapping {
 
 	/**
 	 * Register all handlers specified in the URL map for the corresponding paths.
-	 * @param urlMap a Map with URL paths as keys and handler beans or bean names as values
+	 * <p>
+	 *     注册URL映射中为相应路径指定的所有处理程序
+	 * </p>
+	 * @param urlMap Map with URL paths as keys and handler beans or bean names as values
 	 * @throws BeansException if a handler couldn't be registered
 	 * @throws IllegalStateException if there is a conflicting handler registered
 	 */
@@ -159,6 +166,7 @@ public class SimpleUrlHandlerMapping extends AbstractUrlHandlerMapping {
 				if (handler instanceof String) {
 					handler = ((String) handler).trim();
 				}
+				//注册Url 和handler
 				registerHandler(url, handler);
 			});
 			if (logger.isDebugEnabled()) {

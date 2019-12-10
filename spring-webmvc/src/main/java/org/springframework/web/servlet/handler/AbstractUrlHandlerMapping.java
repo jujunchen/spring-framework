@@ -126,6 +126,7 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 		if (handler == null) {
 			// We need to care for the default handler directly, since we need to
 			// expose the PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE for it as well.
+			//我们需要直接关注默认处理程序，因为我们还需要为它公开PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE。
 			Object rawHandler = null;
 			if ("/".equals(lookupPath)) {
 				rawHandler = getRootHandler();
@@ -153,6 +154,11 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 	 * both "/test" and "/team". For details, see the AntPathMatcher class.
 	 * <p>Looks for the most exact pattern, where most exact is defined as
 	 * the longest path pattern.
+	 * <p>
+	 *     查找给定URL路径的处理程序实例。<br>
+	 * 支持直接匹配，例如注册的“/test”匹配“/test”，以及各种Ant样式模式匹配，例如：注册的“/t*”匹配“/test”和“/team”。<br>
+	 * 有关详细信息，请参阅AntPathMatcher类。寻找最精确的模式，其中最精确的模式被定义为最长的路径模式。
+	 * </p>
 	 * @param urlPath the URL the bean is mapped to
 	 * @param request current HTTP request (to expose the path within the mapping to)
 	 * @return the associated handler instance, or {@code null} if not found
@@ -238,6 +244,10 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 	 * Validate the given handler against the current request.
 	 * <p>The default implementation is empty. Can be overridden in subclasses,
 	 * for example to enforce specific preconditions expressed in URL mappings.
+	 * <p>
+	 *     根据当前请求验证给定的处理程序。<br>
+	 * 默认实现为空。可以在子类中重写，例如，强制执行URL映射中表示的特定前提条件。
+	 * </p>
 	 * @param handler the handler object to validate
 	 * @param request current HTTP request
 	 * @throws Exception if validation failed
@@ -251,6 +261,11 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 	 * the {@link #URI_TEMPLATE_VARIABLES_ATTRIBUTE} before executing the handler.
 	 * <p>The default implementation builds a {@link HandlerExecutionChain}
 	 * with a special interceptor that exposes the path attribute and uri template variables
+	 *
+	 * <p>
+	 *     为给定的原始处理程序构建处理程序对象，在执行处理程序之前公开实际处理程序{@link #PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE}{@link #URI_TEMPLATE_VARIABLES_ATTRIBUTE}。
+	 * 默认实现使用特殊拦截器构建{@link HandlerExecutionChain}，该拦截器公开path属性和uri模板变量
+	 * </p>
 	 * @param rawHandler the raw handler to expose
 	 * @param pathWithinMapping the path to expose before executing the handler
 	 * @param uriTemplateVariables the URI template variables, can be {@code null} if no variables found
@@ -333,6 +348,7 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 		Object resolvedHandler = handler;
 
 		// Eagerly resolve handler if referencing singleton via name.
+		//如果通过bean名称作为映射，直接从容器中获取这个HTTP映射的Bean
 		if (!this.lazyInitHandlers && handler instanceof String) {
 			String handlerName = (String) handler;
 			ApplicationContext applicationContext = obtainApplicationContext();
@@ -363,6 +379,7 @@ public abstract class AbstractUrlHandlerMapping extends AbstractHandlerMapping i
 				setDefaultHandler(resolvedHandler);
 			}
 			else {
+				//处理普通URL映射，设置handlerMap 的key和value，分别对应于URL和映射的controller
 				this.handlerMap.put(urlPath, resolvedHandler);
 				if (logger.isTraceEnabled()) {
 					logger.trace("Mapped [" + urlPath + "] onto " + getHandlerDescription(handler));

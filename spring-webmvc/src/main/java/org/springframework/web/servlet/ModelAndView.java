@@ -218,6 +218,10 @@ public class ModelAndView {
 	/**
 	 * Indicate whether or not this {@code ModelAndView} has a view, either
 	 * as a view name or as a direct {@link View} instance.
+	 *
+	 * <p>
+	 *     指示此ModelAndView是否具有视图，可以是视图名称，也可以是直接View实例。
+	 * </p>
 	 */
 	public boolean hasView() {
 		return (this.view != null);
@@ -227,6 +231,9 @@ public class ModelAndView {
 	 * Return whether we use a view reference, i.e. {@code true}
 	 * if the view has been specified via a name to be resolved by the
 	 * DispatcherServlet via a ViewResolver.
+	 * <p>
+	 *     返回我们是否使用视图引用，即如果通过名称指定视图以由DispatcherServlet通过ViewResolver解析，则返回true。
+	 * </p>
 	 */
 	public boolean isReference() {
 		return (this.view instanceof String);

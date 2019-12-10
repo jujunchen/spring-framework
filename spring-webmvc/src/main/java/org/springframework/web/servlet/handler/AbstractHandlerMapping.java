@@ -383,6 +383,9 @@ public abstract class AbstractHandlerMapping extends WebApplicationObjectSupport
 	/**
 	 * Look up a handler for the given request, falling back to the default
 	 * handler if no specific one is found.
+	 * <p>
+	 *     查找给定请求的处理程序，如果找不到特定的请求，则返回默认处理程序。
+	 * </p>
 	 * @param request current HTTP request
 	 * @return the corresponding handler instance, or the default handler
 	 * @see #getHandlerInternal

@@ -86,6 +86,14 @@ public interface HandlerInterceptor {
 	 * request processing. For more details see
 	 * {@link org.springframework.web.servlet.AsyncHandlerInterceptor}.
 	 * <p>The default implementation returns {@code true}.
+	 *
+	 * <p>
+	 *     接受处理程序的执行。在HandlerMapping确定适当的处理程序对象之后调用，但在HandlerAdapter调用处理程序之前。<br>
+	 * DispatcherServlet处理执行链中的处理程序，该处理程序由任意数量的拦截器组成，最后处理程序本身。<br>
+	 * 使用此方法，每个拦截器都可以决定中止执行链，通常发送HTTP错误或编写自定义响应。<br>
+	 * 注意：特殊注意事项适用于异步请求处理。有关更多详细信息，请参阅AsyncHandlerInterceptor。<br>
+	 * 默认实现返回true。
+	 * </p>
 	 * @param request current HTTP request
 	 * @param response current HTTP response
 	 * @param handler chosen handler to execute, for type and/or instance evaluation
@@ -112,6 +120,16 @@ public interface HandlerInterceptor {
 	 * request processing. For more details see
 	 * {@link org.springframework.web.servlet.AsyncHandlerInterceptor}.
 	 * <p>The default implementation is empty.
+	 *
+	 * <p>
+	 *     拦截处理程序的执行。在HandlerAdapter实际调用处理程序之后调用，但在DispatcherServlet呈现视图之前调用。<br>
+	 *     可以通过给定的ModelAndView将其他模型对象暴露给视图。<br>
+	 * DispatcherServlet处理执行链中的处理程序，该处理程序由任意数量的拦截器组成，最后处理程序本身。<br>
+	 * 使用此方法，每个拦截器都可以对执行进行后处理，并按执行链的逆序进行应用。<br>
+	 *
+	 * 注意：特殊注意事项适用于异步请求处理。有关更多详细信息，请参阅AsyncHandlerInterceptor。<br>
+	 * 默认实现为空。
+	 * </p>
 	 * @param request current HTTP request
 	 * @param response current HTTP response
 	 * @param handler handler (or {@link HandlerMethod}) that started asynchronous
@@ -137,6 +155,14 @@ public interface HandlerInterceptor {
 	 * request processing. For more details see
 	 * {@link org.springframework.web.servlet.AsyncHandlerInterceptor}.
 	 * <p>The default implementation is empty.
+	 *
+	 * <p>
+	 *     完成请求处理后回调，即渲染视图后回调。将调用处理程序执行的任何结果，从而允许适当的资源清理。<br>
+	 * 注意：只有在拦截器的preHandle方法成功完成并返回true时才会被调用！<br>
+	 * 与postHandle方法一样，该方法将以相反的顺序在链中的每个拦截器上调用，因此第一个拦截器将是最后一个被调用的拦截器。<br>
+	 * 注意：特殊注意事项适用于异步请求处理。有关更多详细信息，请参阅AsyncHandlerInterceptor。<br>
+	 * 默认实现为空。
+	 * </p>
 	 * @param request current HTTP request
 	 * @param response current HTTP response
 	 * @param handler handler (or {@link HandlerMethod}) that started asynchronous

@@ -370,6 +370,9 @@ public abstract class WebContentGenerator extends WebApplicationObjectSupport {
 
 	/**
 	 * Check the given request for supported methods and a required session, if any.
+	 * <p>
+	 *     检查给定的请求以获取支持的方法和必需的会话（如果有）。
+	 * </p>
 	 * @param request current HTTP request
 	 * @throws ServletException if the request cannot be handled because a check failed
 	 * @since 4.2
@@ -390,6 +393,10 @@ public abstract class WebContentGenerator extends WebApplicationObjectSupport {
 	/**
 	 * Prepare the given response according to the settings of this generator.
 	 * Applies the number of cache seconds specified for this generator.
+	 *
+	 * <p>
+	 *     根据此发生器的设置准备给定的响应。应用为此生成器指定的缓存秒数。
+	 * </p>
 	 * @param response current HTTP response
 	 * @since 4.2
 	 */

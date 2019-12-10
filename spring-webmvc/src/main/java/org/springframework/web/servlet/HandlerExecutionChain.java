@@ -129,9 +129,12 @@ public class HandlerExecutionChain {
 
 	/**
 	 * Apply preHandle methods of registered interceptors.
+	 * <p>应用注册拦截器的preHandle方法。</p>
 	 * @return {@code true} if the execution chain should proceed with the
 	 * next interceptor or the handler itself. Else, DispatcherServlet assumes
 	 * that this interceptor has already dealt with the response itself.
+	 * 如果执行链应继续执行下一个拦截器或处理程序本身，则为true。
+	 * 否则，DispatcherServlet假定这个拦截器已经处理了响应本身。
 	 */
 	boolean applyPreHandle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HandlerInterceptor[] interceptors = getInterceptors();
@@ -150,6 +153,9 @@ public class HandlerExecutionChain {
 
 	/**
 	 * Apply postHandle methods of registered interceptors.
+	 * <p>
+	 *     应用注册拦截器的postHandle方法。
+	 * </p>
 	 */
 	void applyPostHandle(HttpServletRequest request, HttpServletResponse response, @Nullable ModelAndView mv)
 			throws Exception {
@@ -167,6 +173,11 @@ public class HandlerExecutionChain {
 	 * Trigger afterCompletion callbacks on the mapped HandlerInterceptors.
 	 * Will just invoke afterCompletion for all interceptors whose preHandle invocation
 	 * has successfully completed and returned true.
+	 *
+	 * <p>
+	 *     在映射的HandlerInterceptors上触发afterCompletion回调。<br>
+	 *     只需为preHandle调用成功完成并返回true的所有拦截器调用afterCompletion。
+	 * </p>
 	 */
 	void triggerAfterCompletion(HttpServletRequest request, HttpServletResponse response, @Nullable Exception ex)
 			throws Exception {

@@ -45,6 +45,15 @@ import org.springframework.web.util.WebUtils;
  * <p>Typical usage with {@link InternalResourceViewResolver} looks as follows,
  * from the perspective of the DispatcherServlet context definition:
  *
+ * <p>
+ *     适用于同一Web应用程序中的JSP或其他资源的包装器。<br>
+ *     将模型对象公开为请求属性，并使用RequestDispatcher将请求转发到指定的资源URL。<br>
+ * 此视图的URL应该指定Web应用程序中的资源，适用于RequestDispatcher的forward或include方法。<br>
+ * 如果在已包含的请求中或在已提交的响应内操作，则此视图将回退到包含而不是转发。这可以通过在呈现视图之前调用response.flushBuffer（）（将提交响应）来强制执行。<br>
+ * 从DispatcherServlet上下文定义的角度来看，<br>
+ * InternalResourceViewResolver的典型用法如下所示：
+ * </p>
+ *
  * <pre class="code">&lt;bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"&gt;
  *   &lt;property name="prefix" value="/WEB-INF/jsp/"/&gt;
  *   &lt;property name="suffix" value=".jsp"/&gt;
@@ -133,21 +142,28 @@ public class InternalResourceView extends AbstractUrlBasedView {
 	/**
 	 * Render the internal resource given the specified model.
 	 * This includes setting the model as request attributes.
+	 *
+	 * <p>
+	 *     给定指定模型的内部资源。这包括将模型设置为请求属性。
+	 * </p>
 	 */
 	@Override
 	protected void renderMergedOutputModel(
 			Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		// Expose the model object as request attributes.
+		//将模型对象公开为请求属性
 		exposeModelAsRequestAttributes(model, request);
 
 		// Expose helpers as request attributes, if any.
 		exposeHelpers(request);
 
 		// Determine the path for the request dispatcher.
+		//确定请求需要调度的路径
 		String dispatcherPath = prepareForRendering(request, response);
 
 		// Obtain a RequestDispatcher for the target resource (typically a JSP).
+		//获取目标资源（通常是JSP）的RequestDispatcher。
 		RequestDispatcher rd = getRequestDispatcher(request, dispatcherPath);
 		if (rd == null) {
 			throw new ServletException("Could not get RequestDispatcher for [" + getUrl() +
@@ -165,6 +181,7 @@ public class InternalResourceView extends AbstractUrlBasedView {
 
 		else {
 			// Note: The forwarded resource is supposed to determine the content type itself.
+			//转发请求到确定好的资源上，这里View只起到转发请求的作用。
 			if (logger.isDebugEnabled()) {
 				logger.debug("Forwarding to [" + getUrl() + "]");
 			}
@@ -178,6 +195,13 @@ public class InternalResourceView extends AbstractUrlBasedView {
 	 * <p>Called by {@link #renderMergedOutputModel(Map, HttpServletRequest, HttpServletResponse)}.
 	 * The default implementation is empty. This method can be overridden to add
 	 * custom helpers as request attributes.
+	 *
+	 * <p>
+	 *     公开每个渲染操作独有的助手。这是必要的，以便不同的渲染操作不会覆盖彼此的上下文等。<br>
+	 * 由renderMergedOutputModel（Map，HttpServletRequest，HttpServletResponse）调用。<br>
+	 * 默认实现为空。可以重写此方法以将自定义帮助程序添加为请求属性。
+	 * </p>
+	 *
 	 * @param request current HTTP request
 	 * @throws Exception if there's a fatal error while we're adding attributes
 	 * @see #renderMergedOutputModel
@@ -192,6 +216,11 @@ public class InternalResourceView extends AbstractUrlBasedView {
 	 * <p>This implementation simply returns the configured URL.
 	 * Subclasses can override this to determine a resource to render,
 	 * typically interpreting the URL in a different manner.
+	 *
+	 * <p>
+	 *     准备渲染，并确定转发到（或包括）的请求调度程序路径。<br>
+	 * 此实现只返回配置的URL。子类可以覆盖它以确定要呈现的资源，通常以不同的方式解释URL。
+	 * </p>
 	 * @param request current HTTP request
 	 * @param response current HTTP response
 	 * @return the request dispatcher path to use
