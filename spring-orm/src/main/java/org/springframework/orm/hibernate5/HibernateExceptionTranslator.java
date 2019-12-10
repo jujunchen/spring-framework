@@ -38,6 +38,13 @@ import org.springframework.orm.jpa.EntityManagerFactoryUtils;
  * <p>When configuring the container with {@code @Configuration} classes, a {@code @Bean}
  * of this type must be registered manually.
  *
+ * <p>
+ *     PersistenceExceptionTranslator能够将HibernateException实例转换为Spring的DataAccessException层次结构。
+ *     从Spring 4.3.2和Hibernate 5.2开始，它还转换标准的JPA PersistenceException实例。
+ * <p>
+ *     由LocalSessionFactoryBean扩展，因此除了LocalSessionFactoryBean之外，无需声明此转换器。
+ * 	  使用@Configuration类配置容器时，必须手动注册这种类型的@Bean。
+ *
  * @author Juergen Hoeller
  * @since 4.2
  * @see org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor
