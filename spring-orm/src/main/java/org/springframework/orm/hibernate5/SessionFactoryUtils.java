@@ -217,8 +217,11 @@ public abstract class SessionFactoryUtils {
 	/**
 	 * Convert the given HibernateException to an appropriate exception
 	 * from the {@code org.springframework.dao} hierarchy.
-	 * @param ex the HibernateException that occurred
-	 * @return the corresponding DataAccessException instance
+	 * <p>
+	 *     将给定的HibernateException转换为合适的异常，异常位于{@code org.springframework.dao}包中
+	 * </p>
+	 * @param ex the HibernateException that occurred<br>发生的HibernateException
+	 * @return the corresponding DataAccessException instance <br>对应的DataAccessException实例
 	 * @see HibernateExceptionTranslator#convertHibernateAccessException
 	 * @see HibernateTransactionManager#convertHibernateAccessException
 	 */
