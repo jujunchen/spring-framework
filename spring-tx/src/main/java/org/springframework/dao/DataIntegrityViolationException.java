@@ -22,6 +22,10 @@ package org.springframework.dao;
  * is not purely a relational concept; unique primary keys are
  * required by most database types.
  *
+ * <p>
+ *     当尝试插入或更新数据导致违反完整性约束时引发异常。注意，这不是纯粹的关系概念。大多数数据库类型都需要唯一的主键。
+ * </p>
+ *
  * @author Rod Johnson
  */
 @SuppressWarnings("serial")

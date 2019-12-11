@@ -22,6 +22,11 @@ package org.springframework.dao;
  * Thrown, for example, when we wanted to update 1 row in an RDBMS but actually
  * updated 3.
  *
+ * <p>
+ *     如果更新中发生了意外的事情，但尚未回滚该事务，则会引发数据访问异常。
+ *     例如，当我们想要更新RDBMS中的1行但实际上更新3行时抛出。
+ * </p>
+ *
  * @author Rod Johnson
  */
 @SuppressWarnings("serial")
@@ -49,6 +54,11 @@ public class IncorrectUpdateSemanticsDataAccessException extends InvalidDataAcce
 	 * If this method returns false, there's nothing to roll back.
 	 * <p>The default implementation always returns true.
 	 * This can be overridden in subclasses.
+	 *
+	 * <p>
+	 *     返回数据是否已经更新。如果该方法返回false,那么不会进行任何回滚
+	 * <p>
+	 *     这个方法默认返回true，子类可以覆盖该方法
 	 */
 	public boolean wasDataUpdated() {
 		return true;

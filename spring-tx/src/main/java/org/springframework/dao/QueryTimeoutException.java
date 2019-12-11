@@ -24,6 +24,12 @@ package org.springframework.dao;
  * <p>This exception can be thrown by user code trapping the native database exception or
  * by exception translation.
  *
+ * <p>
+ *     查询超时引发的异常。
+ *     这可能有不同的原因，具体取决于所使用的数据库API，但很可能是在数据库中断或在查询完成之前停止查询的处理之后抛出的。
+ *     可以通过捕获本地数据库异常的用户代码或异常转换来引发此异常。
+ * </p>
+ *
  * @author Thomas Risberg
  * @since 3.1
  */

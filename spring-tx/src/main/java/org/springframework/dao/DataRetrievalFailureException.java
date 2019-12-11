@@ -23,6 +23,10 @@ import org.springframework.lang.Nullable;
  * when looking up specific data via a known identifier. This exception
  * will be thrown either by O/R mapping tools or by DAO implementations.
  *
+ * <p>
+ *     如果无法检索到某些预期数据，则抛出异常，通过已知标识符查找特定数据时。 O/R映射工具或DAO实现将引发此异常。
+ * </p>
+ *
  * @author Juergen Hoeller
  * @since 13.10.2003
  */

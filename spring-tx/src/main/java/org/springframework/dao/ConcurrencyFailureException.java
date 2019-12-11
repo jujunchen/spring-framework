@@ -24,6 +24,10 @@ import org.springframework.lang.Nullable;
  * <p>This exception should be subclassed to indicate the type of failure:
  * optimistic locking, failure to acquire lock, etc.
  *
+ * <p>
+ *     并发失败时引发异常。应该通过子类实现失败的具体类型：比如乐观锁定，获取锁定失败等。
+ * </p>
+ *
  * @author Thomas Risberg
  * @since 1.1
  * @see OptimisticLockingFailureException

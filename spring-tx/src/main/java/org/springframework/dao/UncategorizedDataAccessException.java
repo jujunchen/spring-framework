@@ -23,6 +23,10 @@ import org.springframework.lang.Nullable;
  * than "something went wrong with the underlying resource": for example,
  * an SQLException from JDBC we can't pinpoint more precisely.
  *
+ * <p>
+ *     当我们无法区分更具体的事物时使用，作为超类：例如，来自JDBC的SQLException，我们无法更精确地指出。
+ * </p>
+ *
  * @author Rod Johnson
  */
 @SuppressWarnings("serial")

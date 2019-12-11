@@ -20,6 +20,10 @@ package org.springframework.dao;
  * Data access exception thrown when a result was not of the expected size,
  * for example when expecting a single row but getting 0 or more than 1 rows.
  *
+ * <p>
+ *     当结果不是预期的大小时（例如，预期只有一行但得到0行或多于1行）时，将引发数据访问异常。
+ * </p>
+ *
  * @author Juergen Hoeller
  * @author Chris Beams
  * @since 1.0.2
@@ -28,8 +32,10 @@ package org.springframework.dao;
 @SuppressWarnings("serial")
 public class IncorrectResultSizeDataAccessException extends DataRetrievalFailureException {
 
+	//预期大小
 	private final int expectedSize;
 
+	//实际大小
 	private final int actualSize;
 
 

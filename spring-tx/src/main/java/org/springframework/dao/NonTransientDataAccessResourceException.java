@@ -20,6 +20,9 @@ import org.springframework.lang.Nullable;
 
 /**
  * Data access exception thrown when a resource fails completely and the failure is permanent.
+ * <p>
+ *     当资源完全失败并且失败是永久性的时，引发数据访问异常。
+ * </p>
  *
  * @author Thomas Risberg
  * @since 2.5

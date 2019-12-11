@@ -23,6 +23,11 @@ package org.springframework.dao;
  * At a minimum, the recovery operation must include closing the current connection
  * and getting a new connection.
  *
+ * <P>
+ *     如果应用程序执行一些恢复步骤并重试整个事务，或者在分布式事务的情况下，事务分支，则先前失败的操作可能能够成功时引发的数据访问异常。
+ *     恢复操作至少必须包括关闭当前连接并获得新连接。
+ * </P>
+ *
  * @author Thomas Risberg
  * @since 2.5
  * @see java.sql.SQLRecoverableException

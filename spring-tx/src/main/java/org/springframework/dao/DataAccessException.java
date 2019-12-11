@@ -34,6 +34,10 @@ import org.springframework.lang.Nullable;
  * to catch it or subclasses if any error is to be considered fatal
  * (the usual case).
  *
+ * <p>
+ *     数据访问的根异常类，该异常用于封装具体的API(比如JDBC)，不需要知道底层使用了什么数据库驱动就可以对异常进行处理
+ * <p>
+ *
  * @author Rod Johnson
  */
 @SuppressWarnings("serial")

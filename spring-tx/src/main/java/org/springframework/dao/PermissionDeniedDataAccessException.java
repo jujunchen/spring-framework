@@ -20,6 +20,10 @@ package org.springframework.dao;
  * Exception thrown when the underlying resource denied a permission
  * to access a specific element, such as a specific database table.
  *
+ * <p>
+ *     当访问基础资源中的某个元素没有权限，被拒绝后，将抛出该异常，比如访问指定的表
+ * </p>
+ *
  * @author Juergen Hoeller
  * @since 2.0
  */

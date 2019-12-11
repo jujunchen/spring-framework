@@ -23,6 +23,11 @@ package org.springframework.dao;
  * <p>This represents a problem in our Java data access framework,
  * not the underlying data access infrastructure.
  *
+ * <p>
+ *     错误使用API​​会引发异常，例如未能“compile”需要在执行之前进行编译的查询对象。
+ *     这代表了我们Java数据访问框架中的问题，而不是基础结构中的问题。
+ * </p>
+ *
  * @author Rod Johnson
  */
 @SuppressWarnings("serial")

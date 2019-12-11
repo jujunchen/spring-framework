@@ -23,6 +23,10 @@ import org.springframework.lang.Nullable;
  * where a retry of the same operation would fail unless the cause of the Exception
  * is corrected.
  *
+ * <p>
+ *     数据访问异常的根异常类，该数据访问异常被视为non-transient-除非导致异常的原因是，否则重试同一操作将失败
+ * </p>
+ *
  * @author Thomas Risberg
  * @since 2.5
  * @see java.sql.SQLNonTransientException

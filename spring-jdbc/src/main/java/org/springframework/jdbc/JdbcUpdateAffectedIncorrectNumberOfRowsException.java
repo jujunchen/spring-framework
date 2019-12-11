@@ -23,6 +23,11 @@ import org.springframework.dao.IncorrectUpdateSemanticsDataAccessException;
  * Typically we expect an update to affect a single row, meaning it's an
  * error if it affects multiple rows.
  *
+ * <p>
+ *     JDBC更新影响意外的行数时引发的异常。通常，我们希望更新会影响单行，这意味着如果更新影响多行，那就是错误。
+ * </p>
+ *
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  */
@@ -51,6 +56,9 @@ public class JdbcUpdateAffectedIncorrectNumberOfRowsException extends IncorrectU
 
 	/**
 	 * Return the number of rows that should have been affected.
+	 * <p>
+	 *     返回期望的行数
+	 * </p>
 	 */
 	public int getExpectedRowsAffected() {
 		return this.expected;
@@ -58,6 +66,9 @@ public class JdbcUpdateAffectedIncorrectNumberOfRowsException extends IncorrectU
 
 	/**
 	 * Return the number of rows that have actually been affected.
+	 * <p>
+	 *     返回实际影响的行数
+	 * </p>
 	 */
 	public int getActualRowsAffected() {
 		return this.actual;

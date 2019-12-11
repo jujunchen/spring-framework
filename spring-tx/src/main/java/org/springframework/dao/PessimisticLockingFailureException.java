@@ -24,6 +24,12 @@ package org.springframework.dao;
  * <p>Serves as superclass for more specific exceptions, like
  * CannotAcquireLockException and DeadlockLoserDataAccessException.
  *
+ * <p>
+ *     悲观锁冲突引发异常。
+ *     如果遇到相应的数据库错误，则由Spring的SQLException转换机制抛出。
+ *     作为超类，用于特定的异常，例如CannotAcquireLockException和DeadlockLoserDataAccessException。
+ * </p>
+ *
  * @author Thomas Risberg
  * @since 1.2
  * @see CannotAcquireLockException

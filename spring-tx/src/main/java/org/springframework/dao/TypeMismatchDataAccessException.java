@@ -21,6 +21,10 @@ package org.springframework.dao;
  * for example on an attempt to set an object of the wrong type
  * in an RDBMS column.
  *
+ * <p>
+ *     Java类型与数据库类型不匹配时引发异常：例如，尝试在RDBMS列中设置错误类型的对象。
+ * </p>
+ *
  * @author Rod Johnson
  */
 @SuppressWarnings("serial")

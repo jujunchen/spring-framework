@@ -20,6 +20,10 @@ package org.springframework.dao;
  * Generic exception thrown when the current process was
  * a deadlock loser, and its transaction rolled back.
  *
+ * <p>
+ *     如果当前线程死锁，并且事务回滚，则抛出异常
+ * </p>
+ *
  * @author Rod Johnson
  */
 @SuppressWarnings("serial")

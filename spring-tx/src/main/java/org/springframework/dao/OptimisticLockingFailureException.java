@@ -25,6 +25,11 @@ import org.springframework.lang.Nullable;
  * or by custom DAO implementations. Optimistic locking failure
  * is typically <i>not</i> detected by the database itself.
  *
+ * <p>
+ *     乐观锁违反引发的异常。
+ *     O/R映射工具或自定义DAO实现将引发此异常。数据库本身通常不会检测到乐观锁定失败。
+ * </p>
+ *
  * @author Rod Johnson
  * @see PessimisticLockingFailureException
  */
