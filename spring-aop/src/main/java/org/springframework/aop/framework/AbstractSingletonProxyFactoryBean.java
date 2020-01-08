@@ -180,6 +180,7 @@ public abstract class AbstractSingletonProxyFactoryBean extends ProxyConfig
 		else if (!isProxyTargetClass()) {
 			// Rely on AOP infrastructure to tell us what interfaces to proxy.
 			//需要根据AOP基础设置来确定使用哪个接口作为代理
+			Class<?> targetClass = targetSource.getTargetClass();
 			if (targetClass != null) {
 				proxyFactory.setInterfaces(ClassUtils.getAllInterfacesForClass(targetClass, this.proxyClassLoader));
 			}

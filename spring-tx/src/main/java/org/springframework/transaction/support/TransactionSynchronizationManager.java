@@ -207,8 +207,10 @@ public abstract class TransactionSynchronizationManager {
 
 	/**
 	 * Bind the given resource for the given key to the current thread.
-	 * @param key the key to bind the value to (usually the resource factory)
-	 * @param value the value to bind (usually the active resource object)
+	 * <br>
+	 *     通过指定键将给定资源绑定到当前线程
+	 * @param key the key to bind the value to (usually the resource factory) 资源的key，通常是资源工厂
+	 * @param value the value to bind (usually the active resource object) 要绑定的资源，通常是实际资源对象
 	 * @throws IllegalStateException if there is already a value bound to the thread
 	 * @see ResourceTransactionManager#getResourceFactory()
 	 */

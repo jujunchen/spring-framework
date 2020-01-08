@@ -151,6 +151,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/**
 	 * 要使用的自定义TypeConverter，将覆盖默认的PropertyEditor机制
 	 *
+	 */
 	private TypeConverter typeConverter;
 
 	/** String resolvers to apply e.g. to annotation attribute values. */

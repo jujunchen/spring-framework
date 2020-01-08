@@ -40,6 +40,11 @@ import org.springframework.util.Assert;
  * Binds a CCI Connection from the specified ConnectionFactory to the thread,
  * potentially allowing for one thread-bound Connection per ConnectionFactory.
  *
+ * <br>
+ *     {@link org.springframework.transaction.PlatformTransactionManager}实现，
+ *     用于管理单个CCI ConnectionFactory的本地事务。
+ *     将CCI连接从指定的ConnectionFactory绑定到线程，可能允许每个ConnectionFactory一个线程绑定的Connection。
+ *
  * <p>Application code is required to retrieve the CCI Connection via
  * {@link ConnectionFactoryUtils#getConnection(ConnectionFactory)} instead of a standard
  * Java EE-style {@link ConnectionFactory#getConnection()} call. Spring classes such as
@@ -48,11 +53,25 @@ import org.springframework.util.Assert;
  * {@link ConnectionFactoryUtils} lookup strategy behaves exactly like the native
  * DataSource lookup; it can thus be used in a portable fashion.
  *
+ * <p>
+ *     需要程序通过{@link ConnectionFactoryUtils#getConnection(ConnectionFactory)} 而不是标准的Java EE风格
+ *     {@link ConnectionFactory#getConnection()}来调用CCI连接。
+ *     Spring 比如{@link org.springframework.jca.cci.core.CciTemplate}隐含的使用了此策略。
+ *     如果未跟该事务管理器组合使用，则{@link ConnectionFactoryUtils}的表现方式跟使用DataSource一样；
+ *     因此可以很方便的使用。
+ * </p>
+ *
  * <p>Alternatively, you can allow application code to work with the standard
  * Java EE lookup pattern {@link ConnectionFactory#getConnection()}, for example
  * for legacy code that is not aware of Spring at all. In that case, define a
  * {@link TransactionAwareConnectionFactoryProxy} for your target ConnectionFactory,
  * which will automatically participate in Spring-managed transactions.
+ *
+ * <p>
+ *     另外，您可以允许应用程序代码与标准Java EE查找模式{@link ConnectionFactory#getConnection()}配合使用，
+ *     例如，针对根本不了解Spring的旧代码。
+ *     在这种情况下，请为目标ConnectionFactory定义一个{@link TransactionAwareConnectionFactoryProxy}，它将自动参与Spring管理的事务。
+ * </p>
  *
  * @author Thierry Templier
  * @author Juergen Hoeller
@@ -73,6 +92,8 @@ public class CciLocalTransactionManager extends AbstractPlatformTransactionManag
 	/**
 	 * Create a new CciLocalTransactionManager instance.
 	 * A ConnectionFactory has to be set to be able to use it.
+	 * <br>
+	 *     创建一个新的CciLocalTransactionManager实例。必须将ConnectionFactory设置为可以使用它
 	 * @see #setConnectionFactory
 	 */
 	public CciLocalTransactionManager() {
@@ -80,7 +101,9 @@ public class CciLocalTransactionManager extends AbstractPlatformTransactionManag
 
 	/**
 	 * Create a new CciLocalTransactionManager instance.
-	 * @param connectionFactory the CCI ConnectionFactory to manage local transactions for
+	 * <br>
+	 *     创建一个CciLocalTransactionManager实例
+	 * @param connectionFactory the CCI ConnectionFactory to manage local transactions for <br>CCI ConnectionFactory用于管理本地事务
 	 */
 	public CciLocalTransactionManager(ConnectionFactory connectionFactory) {
 		setConnectionFactory(connectionFactory);
@@ -91,12 +114,18 @@ public class CciLocalTransactionManager extends AbstractPlatformTransactionManag
 	/**
 	 * Set the CCI ConnectionFactory that this instance should manage local
 	 * transactions for.
+	 * <br>
+	 *     设置CCI ConnectionFactory实例用来管理本地事务
 	 */
 	public void setConnectionFactory(@Nullable ConnectionFactory cf) {
+		//如果是 CCI ConnectionFactory代理
 		if (cf instanceof TransactionAwareConnectionFactoryProxy) {
 			// If we got a TransactionAwareConnectionFactoryProxy, we need to perform transactions
 			// for its underlying target ConnectionFactory, else JMS access code won't see
 			// properly exposed transactions (i.e. transactions for the target ConnectionFactory).
+			//如果获得TransactionAwareConnectionFactoryProxy，
+			// 则需要为其基础目标ConnectionFactory执行事务，
+			// 否则JMS访问代码将看不到正确公开的事务（即目标ConnectionFactory的事务）。
 			this.connectionFactory = ((TransactionAwareConnectionFactoryProxy) cf).getTargetConnectionFactory();
 		}
 		else {
@@ -107,6 +136,8 @@ public class CciLocalTransactionManager extends AbstractPlatformTransactionManag
 	/**
 	 * Return the CCI ConnectionFactory that this instance manages local
 	 * transactions for.
+	 * <br>
+	 *     返回CCI ConnectionFactory实例
 	 */
 	@Nullable
 	public ConnectionFactory getConnectionFactory() {
@@ -134,7 +165,9 @@ public class CciLocalTransactionManager extends AbstractPlatformTransactionManag
 
 	@Override
 	protected Object doGetTransaction() {
+		//CCI本地事务对象
 		CciLocalTransactionObject txObject = new CciLocalTransactionObject();
+		//通过指定ConnectionFactory实例获取资源
 		ConnectionHolder conHolder =
 				(ConnectionHolder) TransactionSynchronizationManager.getResource(obtainConnectionFactory());
 		txObject.setConnectionHolder(conHolder);
@@ -145,12 +178,15 @@ public class CciLocalTransactionManager extends AbstractPlatformTransactionManag
 	protected boolean isExistingTransaction(Object transaction) {
 		CciLocalTransactionObject txObject = (CciLocalTransactionObject) transaction;
 		// Consider a pre-bound connection as transaction.
+		//将预绑定的连接视为事务，实际就是判断connectionHolder是否为null
 		return txObject.hasConnectionHolder();
 	}
 
 	@Override
 	protected void doBegin(Object transaction, TransactionDefinition definition) {
+		//开始事务
 		CciLocalTransactionObject txObject = (CciLocalTransactionObject) transaction;
+		//获取ConnectionFactory实例
 		ConnectionFactory connectionFactory = obtainConnectionFactory();
 		Connection con = null;
 
@@ -160,10 +196,14 @@ public class CciLocalTransactionManager extends AbstractPlatformTransactionManag
 				logger.debug("Acquired Connection [" + con + "] for local CCI transaction");
 			}
 
+			//将连接封装到ConnectionHolder
 			ConnectionHolder connectionHolder = new ConnectionHolder(con);
+			//设置同步
 			connectionHolder.setSynchronizedWithTransaction(true);
 
+			//在EIS实例上开始本地事务。
 			con.getLocalTransaction().begin();
+			//获取超时时间，这里实际上已经包含了下面的判断，无须再做判断
 			int timeout = determineTimeout(definition);
 			if (timeout != TransactionDefinition.TIMEOUT_DEFAULT) {
 				connectionHolder.setTimeoutInSeconds(timeout);
@@ -188,6 +228,7 @@ public class CciLocalTransactionManager extends AbstractPlatformTransactionManag
 
 	@Override
 	protected Object doSuspend(Object transaction) {
+		//挂起事务
 		CciLocalTransactionObject txObject = (CciLocalTransactionObject) transaction;
 		txObject.setConnectionHolder(null);
 		return TransactionSynchronizationManager.unbindResource(obtainConnectionFactory());
@@ -195,17 +236,26 @@ public class CciLocalTransactionManager extends AbstractPlatformTransactionManag
 
 	@Override
 	protected void doResume(@Nullable Object transaction, Object suspendedResources) {
+		//恢复事务
 		ConnectionHolder conHolder = (ConnectionHolder) suspendedResources;
 		TransactionSynchronizationManager.bindResource(obtainConnectionFactory(), conHolder);
 	}
 
+	/**
+	 * 事务是否允许回滚
+	 * @param transaction
+	 * @return
+	 * @throws TransactionException
+	 */
 	protected boolean isRollbackOnly(Object transaction) throws TransactionException {
 		CciLocalTransactionObject txObject = (CciLocalTransactionObject) transaction;
 		return txObject.getConnectionHolder().isRollbackOnly();
 	}
 
+
 	@Override
 	protected void doCommit(DefaultTransactionStatus status) {
+		//提交事务
 		CciLocalTransactionObject txObject = (CciLocalTransactionObject) status.getTransaction();
 		Connection con = txObject.getConnectionHolder().getConnection();
 		if (status.isDebug()) {
@@ -224,6 +274,7 @@ public class CciLocalTransactionManager extends AbstractPlatformTransactionManag
 
 	@Override
 	protected void doRollback(DefaultTransactionStatus status) {
+		//回滚事务
 		CciLocalTransactionObject txObject = (CciLocalTransactionObject) status.getTransaction();
 		Connection con = txObject.getConnectionHolder().getConnection();
 		if (status.isDebug()) {
@@ -242,6 +293,7 @@ public class CciLocalTransactionManager extends AbstractPlatformTransactionManag
 
 	@Override
 	protected void doSetRollbackOnly(DefaultTransactionStatus status) {
+		//设置事务回滚状态
 		CciLocalTransactionObject txObject = (CciLocalTransactionObject) status.getTransaction();
 		if (status.isDebug()) {
 			logger.debug("Setting CCI local transaction [" + txObject.getConnectionHolder().getConnection() +
@@ -252,6 +304,7 @@ public class CciLocalTransactionManager extends AbstractPlatformTransactionManag
 
 	@Override
 	protected void doCleanupAfterCompletion(Object transaction) {
+		//事务完成后清理资源
 		CciLocalTransactionObject txObject = (CciLocalTransactionObject) transaction;
 		ConnectionFactory connectionFactory = obtainConnectionFactory();
 
@@ -270,6 +323,8 @@ public class CciLocalTransactionManager extends AbstractPlatformTransactionManag
 	/**
 	 * CCI local transaction object, representing a ConnectionHolder.
 	 * Used as transaction object by CciLocalTransactionManager.
+	 * <br>
+	 *     CCI本地事务对象，代表ConnectionHolder。由CciLocalTransactionManager用作事务对象。
 	 * @see ConnectionHolder
 	 */
 	private static class CciLocalTransactionObject {

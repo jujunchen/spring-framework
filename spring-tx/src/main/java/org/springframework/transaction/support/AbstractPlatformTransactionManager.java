@@ -628,8 +628,11 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 	 * Determine the actual timeout to use for the given definition.
 	 * Will fall back to this manager's default timeout if the
 	 * transaction definition doesn't specify a non-default value.
-	 * @param definition the transaction definition
-	 * @return the actual timeout to use
+	 * <br>
+	 *     确定用于给定定义的实际超时。
+	 *     如果事务定义未指定非默认值，则将退回到该管理器的默认超时。
+	 * @param definition the transaction definition 事务定义
+	 * @return the actual timeout to use 实际的超时时间
 	 * @see org.springframework.transaction.TransactionDefinition#getTimeout()
 	 * @see #setDefaultTimeout
 	 */

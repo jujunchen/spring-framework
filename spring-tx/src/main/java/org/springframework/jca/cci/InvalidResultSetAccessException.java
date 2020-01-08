@@ -24,8 +24,14 @@ import org.springframework.dao.InvalidDataAccessResourceUsageException;
  * Exception thrown when a ResultSet has been accessed in an invalid fashion.
  * Such exceptions always have a {@code java.sql.SQLException} root cause.
  *
+ * 当指定了无效的ResultSet列索引或名称时，通常会发生这种情况。
+ *
  * <p>This typically happens when an invalid ResultSet column index or name
  * has been specified.
+ *
+ * <p>
+ *     以无效方式访问ResultSet时引发的异常。此类异常始终是java.sql.SQLException的根本原因。
+ *
  *
  * @author Juergen Hoeller
  * @since 1.2

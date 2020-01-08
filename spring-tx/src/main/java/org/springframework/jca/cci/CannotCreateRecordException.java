@@ -24,6 +24,10 @@ import org.springframework.dao.DataAccessResourceFailureException;
  * Exception thrown when the creating of a CCI Record failed
  * for connector-internal reasons.
  *
+ * <p>
+ *     由于内部连接器原因而导致创建CCI记录失败时，引发异常。
+ * </p>
+ *
  * @author Juergen Hoeller
  * @since 1.2
  */

@@ -24,7 +24,7 @@ import org.springframework.lang.Nullable;
  * is retried without any intervention by application-level functionality.
  *
  * <p>
- *
+ *	数据访问异常的根，这些数据被认为是瞬态的。在重试该操作之前，先前失败的操作可能能够成功，而无需应用程序级功能的任何干预
  * </p>
  *
  * @author Thomas Risberg

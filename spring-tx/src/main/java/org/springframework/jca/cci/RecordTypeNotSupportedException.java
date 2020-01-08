@@ -24,6 +24,8 @@ import org.springframework.dao.InvalidDataAccessResourceUsageException;
  * Exception thrown when the creating of a CCI Record failed because
  * the connector doesn't support the desired CCI Record type.
  *
+ * 由于连接器不支持所需的CCI记录类型而导致创建CCI记录失败时引发异常
+ *
  * @author Juergen Hoeller
  * @since 1.2
  */
