@@ -1,3 +1,5 @@
+### `这块知识比较老，如今的应用都不会采用这种方式来集成系统`
+
 JCA(Java Connector Architecture) 提供了一个应用服务器和企业信息系统连接的标准Java解决方案，以及把这些系统整合起来实现最好的工作效率的方法。
 
 因为J2EE对企业级应用程序集成的支持已经非常小了（本质上，JMS和XML可以使用JAX应用程序编程接口支持它），Sun和它的Java Community Process伙计建议把J2EE Connector Architecture ( J2EE连接器体系结构，JCA)作为J2EE规范的1.3版的一部分。
@@ -20,5 +22,6 @@ J2EE提供JCA（Java Connector Architecture）规范来标准化对EIS（Enterpr
 连接器的客户端不必总是使用CCI。 某些连接器暴露它们自己的API，只提供JCA资源适配器（resource adapter） 以使用J2EE容器的某些系统契约（system contracts）（连接池（connection pooling），全局事务（global transactions），安全（security））。 Spring并没有为这类连接器特有（connector-specific）的API提供特殊的支持。
 
 `参考资料`：  
+[官方JCA CCI](https://docs.spring.io/spring/docs/5.2.2.RELEASE/spring-framework-reference/integration.html#cci)  
 [如何使用JCA (J2EE 连接器架构）实现企业应用](https://www.cnblogs.com/davidwang456/p/3797236.html)  
 [通过JCA实现企业级应用程序的“即插即用”](http://soft.zhiding.cn/software_zone/2007/0903/488016.shtml)

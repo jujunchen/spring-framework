@@ -203,8 +203,9 @@ public class CciLocalTransactionManager extends AbstractPlatformTransactionManag
 
 			//在EIS实例上开始本地事务。
 			con.getLocalTransaction().begin();
-			//获取超时时间，这里实际上已经包含了下面的判断，无须再做判断
+			//获取超时时间
 			int timeout = determineTimeout(definition);
+			//不希望设置默认超时时间
 			if (timeout != TransactionDefinition.TIMEOUT_DEFAULT) {
 				connectionHolder.setTimeoutInSeconds(timeout);
 			}
