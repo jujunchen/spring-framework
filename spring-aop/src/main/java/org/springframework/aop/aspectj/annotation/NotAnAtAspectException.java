@@ -22,6 +22,9 @@ import org.springframework.aop.framework.AopConfigException;
  * Extension of AopConfigException thrown when trying to perform
  * an advisor generation operation on a class that is not an
  * AspectJ annotation-style aspect.
+ * <br>
+ *     当尝试执行一个advisor生成操作时，类不是一个AspectJ注释风格的aspect。
+ *     AopConfigException扩展。
  *
  * @author Rod Johnson
  * @since 2.0

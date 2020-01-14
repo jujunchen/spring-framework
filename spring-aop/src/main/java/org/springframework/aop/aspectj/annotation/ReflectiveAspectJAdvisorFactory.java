@@ -100,6 +100,9 @@ public class ReflectiveAspectJAdvisorFactory extends AbstractAspectJAdvisorFacto
 	 * Create a new {@code ReflectiveAspectJAdvisorFactory}, propagating the given
 	 * {@link BeanFactory} to the created {@link AspectJExpressionPointcut} instances,
 	 * for bean pointcut handling as well as consistent {@link ClassLoader} resolution.
+	 * <br>
+	 *     创建一个新的ReflectiveAspectJAdvisorFactory，将给定的BeanFactory传播到创建的AspectJExpressionPointcut实例，
+	 *     以进行bean切入点处理以及一致的ClassLoader决策。
 	 * @param beanFactory the BeanFactory to propagate (may be {@code null}}
 	 * @since 4.3.6
 	 * @see AspectJExpressionPointcut#setBeanFactory

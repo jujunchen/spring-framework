@@ -34,6 +34,9 @@ import org.springframework.util.Assert;
  * Helper for retrieving @AspectJ beans from a BeanFactory and building
  * Spring Advisors based on them, for use with auto-proxying.
  *
+ * <br>
+ *     用于从BeanFactory检索@AspectJ Bean并基于它们构建Spring Advisor的帮助程序，以与自动代理一起使用。
+ *
  * @author Juergen Hoeller
  * @since 2.0.2
  * @see AnnotationAwareAspectJAutoProxyCreator
@@ -76,7 +79,12 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 	/**
 	 * Look for AspectJ-annotated aspect beans in the current bean factory,
 	 * and return to a list of Spring AOP Advisors representing them.
+	 * <br>
+	 *     在当前的bean工厂中查找带有AspectJ注解的aspect bean，然后返回代表它们的Spring AOP Advisor列表。
+	 * 	   为每个AspectJ通知方法创建一个Spring Advisor。
 	 * <p>Creates a Spring Advisor for each AspectJ advice method.
+	 * <br>
+	 *     为每一个AspectJ通知方法创建一个Spring通知器
 	 * @return the list of {@link org.springframework.aop.Advisor} beans
 	 * @see #isEligibleBean
 	 */

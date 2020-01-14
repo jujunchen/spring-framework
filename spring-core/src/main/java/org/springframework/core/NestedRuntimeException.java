@@ -20,15 +20,23 @@ import org.springframework.lang.Nullable;
 
 /**
  * Handy class for wrapping runtime {@code Exceptions} with a root cause.
+ * <br>
+ *     便捷类，用于包装运行时{@code Exceptions}，作为根异常
  *
  * <p>This class is {@code abstract} to force the programmer to extend
  * the class. {@code getMessage} will include nested exception
  * information; {@code printStackTrace} and other like methods will
  * delegate to the wrapped exception, if any.
+ * <p>
+ * 	此类是抽象类，用于扩展。getMessage 将包含异常信息，其他类似方法将委托包装类
+ * </p>
  *
  * <p>The similarity between this class and the {@link NestedCheckedException}
  * class is unavoidable, as Java forces these two classes to have different
  * superclasses (ah, the inflexibility of concrete inheritance!).
+ * <p>
+ *     该类与{@link NestedCheckedException} 的相似性是不可避免的，因为Java强制这两个类有不同的超类(为了具体继承的灵活性)
+ * </p>
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -80,6 +88,8 @@ public abstract class NestedRuntimeException extends RuntimeException {
 
 	/**
 	 * Retrieve the innermost cause of this exception, if any.
+	 * <br>
+	 *     获取实际的异常
 	 * @return the innermost exception, or {@code null} if none
 	 * @since 2.0
 	 */
@@ -91,8 +101,13 @@ public abstract class NestedRuntimeException extends RuntimeException {
 	/**
 	 * Retrieve the most specific cause of this exception, that is,
 	 * either the innermost cause (root cause) or this exception itself.
+	 * <br>
+	 *     检索此异常的最具体原因，即最内部的原因（根本原因）或此异常本身。
 	 * <p>Differs from {@link #getRootCause()} in that it falls back
 	 * to the present exception if there is no root cause.
+	 * <p>
+	 *     与{@link #getRootCause()}的不同之处在于，如果没有根本原因，它将回退到当前异常。
+	 * </p>
 	 * @return the most specific cause (never {@code null})
 	 * @since 2.0.3
 	 */
@@ -105,6 +120,9 @@ public abstract class NestedRuntimeException extends RuntimeException {
 	 * Check whether this exception contains an exception of the given type:
 	 * either it is of the given class itself or it contains a nested cause
 	 * of the given type.
+	 * <p>
+	 *     检查此异常是否包含给定类型的异常：它是给定类本身，还是包含给定类型的嵌套异常。
+	 * </p>
 	 * @param exType the exception type to look for
 	 * @return whether there is a nested exception of the specified type
 	 */

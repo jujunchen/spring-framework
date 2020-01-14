@@ -178,6 +178,8 @@ public abstract class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyC
 	/**
 	 * Subclass of BeanFactoryAdvisorRetrievalHelper that delegates to
 	 * surrounding AbstractAdvisorAutoProxyCreator facilities.
+	 * <br>
+	 *     BeanFactoryAdvisorRetrievalHelper的子类，委派给周围的AbstractAdvisorAutoProxyCreator工具。
 	 */
 	private class BeanFactoryAdvisorRetrievalHelperAdapter extends BeanFactoryAdvisorRetrievalHelper {
 
