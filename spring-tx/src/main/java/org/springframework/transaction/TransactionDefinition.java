@@ -158,6 +158,9 @@ public interface TransactionDefinition {
 	 * nested transactions as well.
 	 * <p>
 	 *     如果当前存在事务，则在嵌套事务中执行。如果没有事务，就执行与{@link #PROPAGATION_REQUIRED}类似的操作
+	 *     <br>
+	 *         内部事务的回滚不会对外部事务造成影响。只对{@link org.springframework.jdbc.datasource.DataSourceTransactionManager}
+	 *         事务管理器有效
 	 * </p>
 	 * @see org.springframework.jdbc.datasource.DataSourceTransactionManager
 	 */
@@ -175,46 +178,68 @@ public interface TransactionDefinition {
 	/**
 	 * Indicates that dirty reads, non-repeatable reads and phantom reads
 	 * can occur.
+	 * <br>
+	 *     可能发生脏读，不可重复读和幻读
 	 * <p>This level allows a row changed by one transaction to be read by another
 	 * transaction before any changes in that row have been committed (a "dirty read").
 	 * If any of the changes are rolled back, the second transaction will have
 	 * retrieved an invalid row.
+	 * <br>
+	 *     此级别允许在提交该行中的任何更改之前，由一个事务更改的行被另一事务读取（“脏读”）。
+	 *     如果任何更改被回滚，则第二个事务将检索到无效的行。
 	 * @see java.sql.Connection#TRANSACTION_READ_UNCOMMITTED
 	 */
-	int ISOLATION_READ_UNCOMMITTED = 1;  // same as java.sql.Connection.TRANSACTION_READ_UNCOMMITTED;
+	// same as java.sql.Connection.TRANSACTION_READ_UNCOMMITTED;
+	int ISOLATION_READ_UNCOMMITTED = 1;
 
 	/**
 	 * Indicates that dirty reads are prevented; non-repeatable reads and
 	 * phantom reads can occur.
+	 * <br>
+	 *     避免脏读；允许不可重复读和幻读
 	 * <p>This level only prohibits a transaction from reading a row
 	 * with uncommitted changes in it.
+	 * <br>
+	 *     该级别禁止事务读取未提交的更改
 	 * @see java.sql.Connection#TRANSACTION_READ_COMMITTED
 	 */
-	int ISOLATION_READ_COMMITTED = 2;  // same as java.sql.Connection.TRANSACTION_READ_COMMITTED;
+	// same as java.sql.Connection.TRANSACTION_READ_COMMITTED;
+	int ISOLATION_READ_COMMITTED = 2;
 
 	/**
 	 * Indicates that dirty reads and non-repeatable reads are prevented;
 	 * phantom reads can occur.
+	 * <br>
+	 *     不允许脏读，不可重复读，允许幻读
 	 * <p>This level prohibits a transaction from reading a row with uncommitted changes
 	 * in it, and it also prohibits the situation where one transaction reads a row,
 	 * a second transaction alters the row, and the first transaction re-reads the row,
 	 * getting different values the second time (a "non-repeatable read").
+	 * <br>
+	 *     此级别禁止事务读取其中未提交更改的行，
+	 *     并且还禁止以下情况：一个事务读取一行，第二个事务更改该行，第一个事务重新读取该行，第二次获得不同的值（“不可重复读取”）。
 	 * @see java.sql.Connection#TRANSACTION_REPEATABLE_READ
 	 */
-	int ISOLATION_REPEATABLE_READ = 4;  // same as java.sql.Connection.TRANSACTION_REPEATABLE_READ;
+	// same as java.sql.Connection.TRANSACTION_REPEATABLE_READ;
+	int ISOLATION_REPEATABLE_READ = 4;
 
 	/**
 	 * Indicates that dirty reads, non-repeatable reads and phantom reads
 	 * are prevented.
+	 * <br>
+	 *     防止脏读，不可重复读和幻读
 	 * <p>This level includes the prohibitions in {@link #ISOLATION_REPEATABLE_READ}
 	 * and further prohibits the situation where one transaction reads all rows that
 	 * satisfy a {@code WHERE} condition, a second transaction inserts a row
 	 * that satisfies that {@code WHERE} condition, and the first transaction
 	 * re-reads for the same condition, retrieving the additional "phantom" row
 	 * in the second read.
+	 * <br>
+	 *     事务只能一个个执行，执行速度慢
 	 * @see java.sql.Connection#TRANSACTION_SERIALIZABLE
 	 */
-	int ISOLATION_SERIALIZABLE = 8;  // same as java.sql.Connection.TRANSACTION_SERIALIZABLE;
+	// same as java.sql.Connection.TRANSACTION_SERIALIZABLE;
+	int ISOLATION_SERIALIZABLE = 8;
 
 
 	/**
