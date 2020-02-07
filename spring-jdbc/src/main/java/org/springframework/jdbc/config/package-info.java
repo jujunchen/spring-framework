@@ -1,5 +1,7 @@
 /**
  * Defines the Spring JDBC configuration namespace.
+ * <br>
+ *     定义Spring JDBC 配置命名空间
  */
 @NonNullApi
 @NonNullFields
