@@ -1,38 +1,29 @@
-# <img src="framework-docs/src/docs/spring-framework.png" width="80" height="80"> Spring Framework [![Build Status](https://github.com/spring-projects/spring-framework/actions/workflows/build-and-deploy-snapshot.yml/badge.svg?branch=5.3.x)](https://github.com/spring-projects/spring-framework/actions/workflows/build-and-deploy-snapshot.yml?query=branch%3A5.3.x) [![Revved up by Develocity](https://img.shields.io/badge/Revved%20up%20by-Develocity-06A0CE?logo=Gradle&labelColor=02303A)](https://ge.spring.io/scans?search.rootProjectNames=spring)
-
-This is the home of the Spring Framework: the foundation for all [Spring projects](https://spring.io/projects). Collectively the Spring Framework and the family of Spring projects are often referred to simply as "Spring". 
-
-Spring provides everything required beyond the Java programming language for creating enterprise applications for a wide range of scenarios and architectures. Please read the [Overview](https://docs.spring.io/spring/docs/current/spring-framework-reference/overview.html#spring-introduction) section as reference for a more complete introduction.
-
-## Code of Conduct
-
-This project is governed by the [Spring Code of Conduct](CODE_OF_CONDUCT.adoc). By participating, you are expected to uphold this code of conduct. Please report unacceptable behavior to spring-code-of-conduct@pivotal.io.
-
-## Access to Binaries
-
-For access to artifacts or a distribution zip, see the [Spring Framework Artifacts](https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-Artifacts) wiki page.
-
-## Documentation
-
-The Spring Framework maintains reference documentation ([published](https://docs.spring.io/spring-framework/docs/current/spring-framework-reference/) and [source](src/docs/asciidoc)), GitHub [wiki pages](https://github.com/spring-projects/spring-framework/wiki), and an
-[API reference](https://docs.spring.io/spring-framework/docs/current/javadoc-api/). There are also [guides and tutorials](https://spring.io/guides) across Spring projects.
-
-## Micro-Benchmarks
-
-See the [Micro-Benchmarks](https://github.com/spring-projects/spring-framework/wiki/Micro-Benchmarks) wiki page.
-
-## Build from Source
-
-See the [Build from Source](https://github.com/spring-projects/spring-framework/wiki/Build-from-Source) wiki page and the [CONTRIBUTING.md](CONTRIBUTING.md) file.
-
-## Continuous Integration Builds
-
-Information regarding CI builds can be found in the [Spring Framework Concourse pipeline](ci/README.adoc) documentation.
-
-## Stay in Touch
-
-Follow [@SpringCentral](https://twitter.com/springcentral), [@SpringFramework](https://twitter.com/springframework), and its [team members](https://twitter.com/springframework/lists/team/members) on Twitter. In-depth articles can be found at [The Spring Blog](https://spring.io/blog/), and releases are announced via our [news feed](https://spring.io/blog/category/news).
-
-## License
-
-The Spring Framework is released under version 2.0 of the [Apache License](https://www.apache.org/licenses/LICENSE-2.0).
+## Spring 框架源码解读
+目标是解读并注释Spring框架的每一行代码。  
+### 如果你感兴趣请加入进来，让我们来品读Spring的每一行代码
+## 构建环境
+https://itsaysay.blog.csdn.net/article/details/135758134
+## 进度
+|模块|进度|描述|
+|-|-|-|
+|spring-aop|0%|要使用AOP相关的功能(事务、切面)需要包含该模块|
+|spring-aspects|0%|包含AspectJ AOP库进行高级集成的所有类|
+|spring-beans|0%|包含对Spring bean进行操作的类|
+|spring-beans-groovy|0%|对Spring bean进行操作的Groovy类|
+|spring-context|0%|包含Spring Core提供的许多扩展类，如ApplicationContext|
+|spring-context-indexer|0%|包含一个索引器实现，<br>它提供对META-INF/spring.components 中定义的候选项的访问功能，但核心类CandidateComponentsIndex 并不能再外部使用|
+|spring-context-support|0%|该模块是对spring-context模块的进一步扩展，在用户界面方面，有一些用于支持邮件并与模块引擎集成的类，还包括与各种任务执行和调度库（CommonJ和Quartz）的集成|
+|spring-core|0%|主要模块，其他Spring模块都会依赖该模块|
+|spring-expression|0%|包含SpEL表达式的支持类|
+|spring-instrument|0%|包含用于JVM启动的Spring工具代理，如果在Spring应用程序中使用AspectJ实现加载织入，那么该模块是必需的|
+|spring-jdbc|0%|包含所有的JDBC支持类|
+|spring-jms|0%|所有JMS支持类|
+|spring-messaging|0%|提供消息传递的基础结构和协议|
+|spring-orm|0%|扩展了Spring的标准JDBC功能集，支持流行的ORM工具，包含Hibernate、JDO、JPA和数据映射器IBATIS。该JAR文件中的许多类都依赖于spring-jdbc JAR文件中所包含的类，因此也需要把它包含在程序中|
+|spring-oxm|0%|为Object/XML映射OXM提供支持，用于抽象XML编组和解组以及支持Castor、JAXB、XMLBeans和XStream等常用工具的类都包含在此模块中|
+|spring-test|0%|Spring提供的帮助测试程序的包|
+|spring-tx|80%|提供支持Spring事务的所有类|
+|spring-web|0%|包含Web程序中使用的所需核心类|
+|spring-web-reactive|0%|响应式模型的核心接口和类|
+|spring-webmvc|0%|Spring自己的MVC框架|
+|spring-websocket|0%|Spring对WebSocket的支持类|
