@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.springframework'
+version = '5.3.37-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    optional(project(":spring-context"))
+
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}

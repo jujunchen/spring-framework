@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
 import java.util.Objects;
 
 import kotlin.Unit;
+import kotlin.coroutines.Continuation;
 import kotlin.jvm.JvmClassMappingKt;
 import kotlin.reflect.KClassifier;
 import kotlin.reflect.KFunction;
@@ -69,6 +70,7 @@ public abstract class CoroutinesUtils {
 	 * Invoke a suspending function and converts it to {@link Mono} or
 	 * {@link Flux}.
 	 */
+	@SuppressWarnings("deprecation")
 	public static Publisher<?> invokeSuspendingFunction(Method method, Object target, Object... args) {
 		KFunction<?> function = Objects.requireNonNull(ReflectJvmMapping.getKotlinFunction(method));
 		if (method.isAccessible() && !KCallablesJvm.isAccessible(function)) {
