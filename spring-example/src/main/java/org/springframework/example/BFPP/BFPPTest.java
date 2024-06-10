@@ -2,7 +2,9 @@ package org.springframework.example.BFPP;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-
+/**
+ * BFPP测试类
+ */
 public class BFPPTest {
 
 	public static void main(String[] args) {
