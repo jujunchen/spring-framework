@@ -19,5 +19,9 @@ public class J implements BeanDefinitionRegistryPostProcessor  {
 		System.out.println("J sub add BFPP I");
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(I.class);
 		registry.registerBeanDefinition("i", builder.getBeanDefinition());
+
+		//注册F2
+		BeanDefinitionBuilder builder2 = BeanDefinitionBuilder.genericBeanDefinition(F2.class);
+		registry.registerBeanDefinition("f2", builder2.getBeanDefinition());
 	}
 }
